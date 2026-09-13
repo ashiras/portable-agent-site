@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="ja" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portable Agent — 仕事を持ち運ぶ。LLMは持ち運ばない。</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', '"Noto Sans JP"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            brand: {
+              50: '#EEF2FF',
+              100: '#E0E7FF',
+              500: '#4F46E5',
+              600: '#4338CA',
+              700: '#3730A3',
+            },
+            amberAccent: '#F59E0B',
+            emeraldAccent: '#10B981',
+            roseAccent: '#F43F5E',
+          },
+          boxShadow: {
+            'soft': '0 20px 40px -15px rgba(0, 0, 0, 0.05)',
+            'card': '0 4px 20px 0 rgba(0, 0, 0, 0.04)',
+            'glow': '0 0 35px -5px rgba(79, 70, 229, 0.15)',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* 爽やかで開放感のあるグリッド＆ドットパターン */
+    .bg-dots {
+      background-image: radial-gradient(#CBD5E1 1px, transparent 1px);
+      background-size: 28px 28px;
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, #1E1B4B 0%, #4338CA 50%, #0284C7 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .gradient-border {
+      background: linear-gradient(to right, #6366F1, #38BDF8);
+    }
+  </style>
+</head>
+<body class="bg-[#F8FAFC] text-slate-800 font-sans antialiased selection:bg-indigo-500 selection:text-white">
+
+  <!-- Floating Header / Navigation -->
+  <header class="sticky top-0 z-50 backdrop-blur-md bg-white/80 border-b border-slate-200/80 px-6 py-4 transition-all">
+    <div class="max-w-6xl mx-auto flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-sky-400 flex items-center justify-center shadow-md shadow-indigo-500/20 text-white font-mono font-bold text-base">
+          P
+        </div>
+        <div class="flex flex-col">
+          <span class="font-bold text-slate-900 tracking-tight text-base leading-none">Portable Agent</span>
+          <span class="text-[10px] font-mono text-indigo-600 font-semibold tracking-wider uppercase mt-0.5">Runtime Harness v2</span>
+        </div>
+      </div>
+
+      <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-600">
+        <a href="#philosophy" class="hover:text-indigo-600 transition-colors">設計思想</a>
+        <a href="#formula" class="hover:text-indigo-600 transition-colors">Workの定義</a>
+        <a href="#bcp" class="hover:text-indigo-600 transition-colors">3段階BCP & ハードウェア</a>
+        <a href="#circuit-breaker" class="hover:text-indigo-600 transition-colors">自律安全弁（Safety Exit）</a>
+      </nav>
+
+      <div class="flex items-center space-x-3">
+        <a href="#cta" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-xs sm:text-sm tracking-tight transition-all shadow-md shadow-indigo-600/20 hover:shadow-lg hover:shadow-indigo-600/30">
+          Whitepaperを読む ↗
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section (爽やか・明るいトーン) -->
+  <section class="relative pt-20 pb-16 px-6 overflow-hidden bg-dots">
+    <!-- 背景のソフトなオーラ -->
+    <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-gradient-to-r from-indigo-200/40 via-sky-200/30 to-purple-200/40 blur-3xl -z-10 rounded-full pointer-events-none"></div>
+
+    <div class="max-w-4xl mx-auto text-center space-y-8">
+      
+      <!-- キャッチーなバッジ -->
+      <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-indigo-50 border border-indigo-200/60 shadow-sm text-xs font-mono font-semibold text-indigo-700">
+        <span class="flex h-2 w-2 relative">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2 w-2 bg-indigo-600"></span>
+        </span>
+        <span>Portability-first External Harness Runtime</span>
+      </div>
+
+      <!-- メインコピー -->
+      <h1 class="text-4xl sm:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.15]">
+        仕事を持ち運ぶ。<br />
+        <span class="gradient-text">LLMは持ち運ばない。</span>
+      </h1>
+
+      <!-- サブコピー -->
+      <p class="max-w-2xl mx-auto text-base sm:text-lg text-slate-600 leading-relaxed font-normal">
+        LLMに仕事を閉じ込めない。商用クラウドが止まっても、途中でモデルを切り替えても、仕事は決して途切れない。<br class="hidden sm:inline" />
+        <span class="font-semibold text-slate-800">「特定のAIベンダーに依存しない開発継続性（BCP）」</span>を確立する外部ハーネス。
+      </p>
+
+      <!-- 核心のステート遷移図カード (商用LLMが落ちてもLocalLLMで再開) -->
+      <div class="pt-6 max-w-2xl mx-auto">
+        <div class="p-6 rounded-2xl bg-white border border-slate-200/80 shadow-soft text-left relative overflow-hidden">
+          <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-indigo-500 via-sky-400 to-emerald-400"></div>
+          
+          <div class="flex items-center justify-between pb-3 border-b border-slate-100 font-mono text-xs text-slate-500">
+            <span class="font-semibold text-slate-700 flex items-center gap-1.5">
+              <svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+              Zero-Downtime Engine Hot-Swap
+            </span>
+            <span class="text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded font-semibold">Self-Healing</span>
+          </div>
+
+          <div class="py-4 space-y-4">
+            <div class="flex items-center gap-2 text-xs font-mono flex-wrap">
+              <span class="px-2.5 py-1 rounded-md bg-slate-100 text-slate-700 font-medium">Task Start (x₀)</span>
+              <span class="text-slate-300">→</span>
+              <span class="px-2.5 py-1 rounded-md bg-indigo-50 text-indigo-700 font-medium">商用 LLM (y₁, y₂)</span>
+              <span class="text-slate-300">→</span>
+              <span class="px-2.5 py-1 rounded-md bg-emerald-50 text-emerald-700 font-semibold border border-emerald-200">Checkpoint 1 保存</span>
+            </div>
+
+            <div class="p-3 bg-amber-50/80 rounded-xl border border-amber-200/60 flex items-start gap-3">
+              <span class="text-amber-600 text-lg">⚡</span>
+              <div class="text-xs text-amber-900 leading-relaxed">
+                <strong class="font-semibold">商用サービスで障害発生・API停止？</strong><br />
+                仕事（Goal / Plan / Artifact）は外部ハーネスに安全に保存されているためノーダメージ。
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2 text-xs font-mono flex-wrap">
+              <span class="px-2.5 py-1 rounded-md bg-emerald-50 text-emerald-700 font-semibold border border-emerald-200">Checkpoint 1</span>
+              <span class="text-slate-300">→</span>
+              <span class="px-2.5 py-1 rounded-md bg-sky-50 text-sky-700 font-medium">Rebuild (ControlState)</span>
+              <span class="text-slate-300">→</span>
+              <span class="px-2.5 py-1 rounded-md bg-purple-50 text-purple-700 font-bold border border-purple-200">Local LLM (y₃, y₄)</span>
+              <span class="text-slate-300">→</span>
+              <span class="px-2.5 py-1 rounded-md bg-emerald-600 text-white font-semibold">Checkpoint 2 完遂</span>
+            </div>
+          </div>
+
+          <div class="pt-2 text-[11px] font-mono text-slate-400 text-right">
+            ※ 途中でEngineを丸ごと交換しても、仕事はそのまま進む
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Section 1: Workの真の定義 -->
+  <section id="formula" class="py-16 px-6 bg-white border-y border-slate-200/70">
+    <div class="max-w-5xl mx-auto space-y-10">
+      
+      <div class="text-center max-w-2xl mx-auto space-y-3">
+        <span class="text-xs font-mono font-bold tracking-wider text-indigo-600 uppercase bg-indigo-50 px-3 py-1 rounded-full">Definition of Work</span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">
+          「仕事」は単なるプロンプトではない。
+        </h2>
+        <p class="text-sm text-slate-600 leading-relaxed">
+          LLMに長大な指示を押し付けると、<span class="font-semibold text-slate-800">Softmax Crowding</span> で重要な制約が押し潰され、<span class="font-semibold text-slate-800">Semantic Drift</span> で迷走します。<br />
+          Portable Agent では、実行状態そのものを外部ハーネスで保持します。
+        </p>
+      </div>
+
+      <!-- Formula Banner -->
+      <div class="p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-slate-900 to-indigo-950 text-white shadow-xl overflow-x-auto">
+        <div class="text-xs font-mono text-indigo-300 uppercase tracking-wider mb-2">Harness State Formula</div>
+        <div class="text-lg sm:text-2xl font-mono font-bold text-center py-4 tracking-tight text-white border-y border-white/10">
+          Work = Goal + Plan + Trajectory + Checkpoint + Control State + Artifact + Guard
+        </div>
+        <p class="text-xs font-mono text-center text-slate-300 pt-3">
+          この7つの状態すべてを外部ハーネスが握っているからこそ、LLMを自由に着脱できる。
+        </p>
+      </div>
+
+      <!-- 7 Elements Grid -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3 text-center">
+        <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
+          <div class="font-mono text-xs font-bold text-indigo-600">Goal</div>
+          <div class="text-[11px] text-slate-500 mt-1">最終目的</div>
+        </div>
+        <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
+          <div class="font-mono text-xs font-bold text-indigo-600">Plan</div>
+          <div class="text-[11px] text-slate-500 mt-1">手順・設計</div>
+        </div>
+        <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
+          <div class="font-mono text-xs font-bold text-indigo-600">Trajectory</div>
+          <div class="text-[11px] text-slate-500 mt-1">実行軌道</div>
+        </div>
+        <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
+          <div class="font-mono text-xs font-bold text-indigo-600">Checkpoint</div>
+          <div class="text-[11px] text-slate-500 mt-1">Git確定地点</div>
+        </div>
+        <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
+          <div class="font-mono text-xs font-bold text-indigo-600">Control State</div>
+          <div class="text-[11px] text-slate-500 mt-1">固定制約(Pin)</div>
+        </div>
+        <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
+          <div class="font-mono text-xs font-bold text-indigo-600">Artifact</div>
+          <div class="text-[11px] text-slate-500 mt-1">コード・成果物</div>
+        </div>
+        <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
+          <div class="font-mono text-xs font-bold text-indigo-600">Guard</div>
+          <div class="text-[11px] text-slate-500 mt-1">外部検証器</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Section 2: 3段階BCP & ハードウェア階層 -->
+  <section id="bcp" class="py-20 px-6 bg-[#F8FAFC]">
+    <div class="max-w-5xl mx-auto space-y-12">
+      
+      <div class="max-w-2xl space-y-3">
+        <span class="text-xs font-mono font-bold tracking-wider text-sky-600 uppercase bg-sky-50 px-3 py-1 rounded-full">Edge to Enterprise Continuity</span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">
+          ラズパイからワークステーションまで。<br />
+          3段階の事業継続（BCP）マトリクス
+        </h2>
+        <p class="text-sm text-slate-600 leading-relaxed">
+          2026年現在、Raspberry Pi 5 + AI HAT+ 2（Hailo-10H 40 TOPS / 専用RAM 8GB）による Coder LLM（Qwen2.5-Coder等）の完全ローカル駆動は公式に実用圏へ到達。ハードウェア規模に合わせて最適な継続モデルを選択可能です。
+        </p>
+      </div>
+
+      <!-- BCP Table Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <!-- Level 1 -->
+        <div class="p-6 rounded-2xl bg-white border border-slate-200/80 shadow-card hover:border-sky-400 transition-all flex flex-col justify-between">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-1 rounded-md bg-sky-50 text-sky-700 font-mono text-xs font-bold">LEVEL 01</span>
+              <span class="text-xs font-mono text-slate-400">エッジ実証</span>
+            </div>
+            <h3 class="text-lg font-bold text-slate-900">インパクト実証</h3>
+            <div class="space-y-2 text-xs">
+              <div class="flex justify-between py-1.5 border-b border-slate-100">
+                <span class="text-slate-500">モデル目安</span>
+                <span class="font-mono font-bold text-slate-800">1.5B 〜 3B</span>
+              </div>
+              <div class="flex justify-between py-1.5 border-b border-slate-100">
+                <span class="text-slate-500">ハードウェア</span>
+                <span class="font-semibold text-slate-800 text-right">Raspberry Pi 5<br/>+ AI HAT+ 2</span>
+              </div>
+            </div>
+          </div>
+          <div class="mt-6 pt-4 border-t border-slate-100 text-xs text-slate-600">
+            <strong class="text-slate-800 font-medium">主な用途：</strong><br />
+            小修正、テスト修正、限定ループ実行
+          </div>
+        </div>
+
+        <!-- Level 2 -->
+        <div class="p-6 rounded-2xl bg-white border-2 border-indigo-500/30 shadow-card relative hover:border-indigo-500 transition-all flex flex-col justify-between">
+          <div class="absolute -top-3 right-4 px-2.5 py-0.5 rounded-full bg-indigo-600 text-white font-mono text-[10px] font-bold uppercase tracking-wider">
+            Standard Floor
+          </div>
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-1 rounded-md bg-indigo-50 text-indigo-700 font-mono text-xs font-bold">LEVEL 02</span>
+              <span class="text-xs font-mono text-indigo-600 font-semibold">実用フロア</span>
+            </div>
+            <h3 class="text-lg font-bold text-slate-900">実用 Floor</h3>
+            <div class="space-y-2 text-xs">
+              <div class="flex justify-between py-1.5 border-b border-slate-100">
+                <span class="text-slate-500">モデル目安</span>
+                <span class="font-mono font-bold text-slate-800">7B 〜 14B</span>
+              </div>
+              <div class="flex justify-between py-1.5 border-b border-slate-100">
+                <span class="text-slate-500">ハードウェア</span>
+                <span class="font-semibold text-slate-800">16〜32GB RAM/VRAM級</span>
+              </div>
+            </div>
+          </div>
+          <div class="mt-6 pt-4 border-t border-slate-100 text-xs text-slate-600">
+            <strong class="text-slate-800 font-medium">主な用途：</strong><br />
+            標準的なCRUD実装、自動テスト作成、自律修正ループ
+          </div>
+        </div>
+
+        <!-- Level 3 -->
+        <div class="p-6 rounded-2xl bg-white border border-slate-200/80 shadow-card hover:border-purple-400 transition-all flex flex-col justify-between">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-1 rounded-md bg-purple-50 text-purple-700 font-mono text-xs font-bold">LEVEL 03</span>
+              <span class="text-xs font-mono text-slate-400">エンタープライズ</span>
+            </div>
+            <h3 class="text-lg font-bold text-slate-900">本格 BCP</h3>
+            <div class="space-y-2 text-xs">
+              <div class="flex justify-between py-1.5 border-b border-slate-100">
+                <span class="text-slate-500">モデル目安</span>
+                <span class="font-mono font-bold text-slate-800">30B 級</span>
+              </div>
+              <div class="flex justify-between py-1.5 border-b border-slate-100">
+                <span class="text-slate-500">ハードウェア</span>
+                <span class="font-semibold text-slate-800">32〜64GB RAM/VRAM級</span>
+              </div>
+            </div>
+          </div>
+          <div class="mt-6 pt-4 border-t border-slate-100 text-xs text-slate-600">
+            <strong class="text-slate-800 font-medium">主な用途：</strong><br />
+            商用LLM全面停止時のミッションクリティカル開発継続
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Section 3: 自律安全弁（Exit条件の二分化） -->
+  <section id="circuit-breaker" class="py-20 px-6 bg-white border-t border-slate-200/80">
+    <div class="max-w-5xl mx-auto space-y-12">
+      
+      <div class="text-center max-w-2xl mx-auto space-y-3">
+        <span class="text-xs font-mono font-bold tracking-wider text-emerald-600 uppercase bg-emerald-50 px-3 py-1 rounded-full">Deterministic Guard</span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">
+          無限ループを許さない、2種類の終了条件
+        </h2>
+        <div class="text-sm sm:text-base font-mono font-bold text-slate-700 pt-2">
+          Exit = Success Exit ∨ Safety Exit
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        
+        <!-- Success Exit Card -->
+        <div class="p-8 rounded-2xl bg-gradient-to-b from-emerald-50/50 to-white border border-emerald-200/80 shadow-soft space-y-5">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold text-lg shadow-md shadow-emerald-600/20">
+              ✓
+            </div>
+            <div>
+              <h3 class="text-lg font-bold text-slate-900">Success Exit（成功終了）</h3>
+              <p class="text-xs text-slate-500">物理的な外部検証（Guard）の完全パス</p>
+            </div>
+          </div>
+          <ul class="space-y-3 text-xs sm:text-sm text-slate-700 font-medium">
+            <li class="flex items-center gap-2.5">
+              <span class="text-emerald-600 font-bold">●</span> Compile が正常に通る
+            </li>
+            <li class="flex items-center gap-2.5">
+              <span class="text-emerald-600 font-bold">●</span> Unit Test が全件パスする
+            </li>
+            <li class="flex items-center gap-2.5">
+              <span class="text-emerald-600 font-bold">●</span> Linter の警告・エラーがゼロ
+            </li>
+            <li class="flex items-center gap-2.5">
+              <span class="text-emerald-600 font-bold">●</span> 指定された成果物（Artifact）が物理的に存在する
+            </li>
+          </ul>
+          <div class="pt-2">
+            <span class="inline-block px-3 py-1 rounded-full bg-emerald-100/70 text-emerald-800 text-[11px] font-mono font-semibold">
+              Checkpoint Commit 実行 → Human Review
+            </span>
+          </div>
+        </div>
+
+        <!-- Safety Exit Card -->
+        <div class="p-8 rounded-2xl bg-gradient-to-b from-rose-50/50 to-white border border-rose-200/80 shadow-soft space-y-5">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-xl bg-rose-600 text-white flex items-center justify-center font-bold text-lg shadow-md shadow-rose-600/20">
+              ⚡
+            </div>
+            <div>
+              <h3 class="text-lg font-bold text-slate-900">Safety Exit（安全遮断）</h3>
+              <p class="text-xs text-slate-500">Progress Circuit Breaker による強制停止</p>
+            </div>
+          </div>
+          <ul class="space-y-3 text-xs sm:text-sm text-slate-700 font-medium">
+            <li class="flex items-center gap-2.5">
+              <span class="text-rose-600 font-bold">●</span> 最大試行回数（max_retry）に到達
+            </li>
+            <li class="flex items-center gap-2.5">
+              <span class="text-rose-600 font-bold">●</span> 同じエラーの連続反復（2回連続 no-progress）
+            </li>
+            <li class="flex items-center gap-2.5">
+              <span class="text-rose-600 font-bold">●</span> 許可されていない対象外ファイルの無断変更
+            </li>
+            <li class="flex items-center gap-2.5">
+              <span class="text-rose-600 font-bold">●</span> Context / Token / 実行時間の上限到達
+            </li>
+          </ul>
+          <div class="pt-2">
+            <span class="inline-block px-3 py-1 rounded-full bg-rose-100/70 text-rose-800 text-[11px] font-mono font-semibold">
+              強制 Cut & Return → Checkpoint Failed
+            </span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Section 4: v1からv2への進化 (Evolution) -->
+  <section class="py-16 px-6 bg-slate-50/80 border-t border-slate-200/80">
+    <div class="max-w-4xl mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        
+        <div class="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-2">
+          <div class="font-mono text-xs font-bold text-slate-400">Portable Agent v1</div>
+          <h4 class="font-bold text-slate-800 text-base">Orchestration-first External Harness</h4>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            複数のAI・Agent・Engineを外側から接続し、成果物を受け渡しながら仕事を進めることに最適化した外部ハーネス。
+          </p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-gradient-to-br from-indigo-50/80 to-white border-2 border-indigo-500/40 shadow-soft space-y-2">
+          <div class="font-mono text-xs font-bold text-indigo-600">Portable Agent v2 [Next Generation]</div>
+          <h4 class="font-bold text-indigo-950 text-base">Portability-first External Harness</h4>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Goal、Checkpoint、Guard、Control StateをLLMの外側に保持し、仕事そのものをEngineから切り離して継続・移送することに最適化した外部ハーネス。
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section id="cta" class="py-20 px-6 bg-white border-t border-slate-200/80 text-center">
+    <div class="max-w-3xl mx-auto space-y-6">
+      
+      <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+        あなたのエージェントを、<br />
+        <span class="gradient-text">ベンダーロックインから解放しよう。</span>
+      </h2>
+
+      <p class="text-sm sm:text-base text-slate-600 max-w-xl mx-auto leading-relaxed">
+        モデルの流行り廃りやクラウド障害に振り回される時代は終わりました。<br />
+        状態を外側に保持し、どこへでも持ち運べる自律開発環境へ。
+      </p>
+
+      <div class="pt-4 flex flex-col sm:flex-row justify-center items-center gap-4">
+        <a href="#" class="px-8 py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-sm transition-all shadow-lg shadow-indigo-600/25 hover:shadow-xl hover:shadow-indigo-600/35">
+          ドキュメントを読む
+        </a>
+        <a href="#" class="px-8 py-3.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium text-sm transition-all">
+          GitHub リポジトリを見る ↗
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Site Footer -->
+  <footer class="py-12 px-6 bg-[#F8FAFC] border-t border-slate-200/80 text-center">
+    <div class="max-w-3xl mx-auto space-y-1.5 text-xs font-mono text-slate-400">
+      <div class="text-slate-500 font-medium">Portal Agent — Portability-first External Harness Runtime</div>
+      <div>© 2026 Ashiras, Inc. All rights reserved.</div>
+    </div>
+  </footer>
+</body>
+</html>
