@@ -72,10 +72,10 @@
       </div>
 
       <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-600">
-        <a href="#philosophy" class="hover:text-indigo-600 transition-colors">設計思想</a>
         <a href="#formula" class="hover:text-indigo-600 transition-colors">Workの定義</a>
         <a href="#bcp" class="hover:text-indigo-600 transition-colors">3段階BCP & ハードウェア</a>
         <a href="#circuit-breaker" class="hover:text-indigo-600 transition-colors">自律安全弁（Safety Exit）</a>
+        <a href="#contact" class="hover:text-indigo-600 transition-colors">お問い合わせ</a>
       </nav>
 
       <div class="flex items-center space-x-3">
@@ -86,14 +86,12 @@
     </div>
   </header>
 
-  <!-- Hero Section (爽やか・明るいトーン) -->
+  <!-- Hero Section -->
   <section class="relative pt-20 pb-16 px-6 overflow-hidden bg-dots">
-    <!-- 背景のソフトなオーラ -->
     <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-gradient-to-r from-indigo-200/40 via-sky-200/30 to-purple-200/40 blur-3xl -z-10 rounded-full pointer-events-none"></div>
 
     <div class="max-w-4xl mx-auto text-center space-y-8">
       
-      <!-- キャッチーなバッジ -->
       <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-indigo-50 border border-indigo-200/60 shadow-sm text-xs font-mono font-semibold text-indigo-700">
         <span class="flex h-2 w-2 relative">
           <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
@@ -102,19 +100,17 @@
         <span>Portability-first External Harness Runtime</span>
       </div>
 
-      <!-- メインコピー -->
       <h1 class="text-4xl sm:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.15]">
         仕事を持ち運ぶ。<br />
         <span class="gradient-text">LLMは持ち運ばない。</span>
       </h1>
 
-      <!-- サブコピー -->
       <p class="max-w-2xl mx-auto text-base sm:text-lg text-slate-600 leading-relaxed font-normal">
         LLMに仕事を閉じ込めない。商用クラウドが止まっても、途中でモデルを切り替えても、仕事は決して途切れない。<br class="hidden sm:inline" />
         <span class="font-semibold text-slate-800">「特定のAIベンダーに依存しない開発継続性（BCP）」</span>を確立する外部ハーネス。
       </p>
 
-      <!-- 核心のステート遷移図カード (商用LLMが落ちてもLocalLLMで再開) -->
+      <!-- ステート遷移図カード -->
       <div class="pt-6 max-w-2xl mx-auto">
         <div class="p-6 rounded-2xl bg-white border border-slate-200/80 shadow-soft text-left relative overflow-hidden">
           <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-indigo-500 via-sky-400 to-emerald-400"></div>
@@ -240,7 +236,6 @@
         </p>
       </div>
 
-      <!-- BCP Table Cards -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         
         <!-- Level 1 -->
@@ -454,19 +449,105 @@
         <a href="#" class="px-8 py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-sm transition-all shadow-lg shadow-indigo-600/25 hover:shadow-xl hover:shadow-indigo-600/35">
           ドキュメントを読む
         </a>
-        <a href="#" class="px-8 py-3.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium text-sm transition-all">
-          GitHub リポジトリを見る ↗
+        <a href="#contact" class="px-8 py-3.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium text-sm transition-all">
+          お問い合わせはこちら ↘
         </a>
       </div>
     </div>
   </section>
 
+  <!-- Section: お問い合わせ (Contact Form) -->
+  <section id="contact" class="py-20 px-6 bg-[#F8FAFC] border-t border-slate-200/80">
+    <div class="max-w-xl mx-auto space-y-8">
+      
+      <div class="text-center space-y-2">
+        <span class="text-xs font-mono font-bold tracking-wider text-indigo-600 uppercase bg-indigo-50 px-3 py-1 rounded-full">Contact</span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">お問い合わせ</h2>
+        <p class="text-sm text-slate-600">
+          Portable Agent に関するご質問や導入・検証のご相談など、お気軽にお送りください。
+        </p>
+      </div>
+
+      <div class="p-8 rounded-2xl bg-white border border-slate-200/80 shadow-soft">
+        <form id="contact-form" action="https://formspree.io/f/mqpkvnaj" method="POST" class="space-y-5">
+          <div>
+            <label class="block text-xs font-mono font-semibold text-slate-700 mb-1.5">お名前</label>
+            <input type="text" name="name" required placeholder="山田 太郎" class="w-full px-4 py-3 bg-slate-50/50 border border-slate-200 rounded-xl text-slate-900 text-sm placeholder-slate-400 focus:outline-none focus:border-indigo-600 focus:bg-white focus:ring-2 focus:ring-indigo-100 transition">
+          </div>
+          <div>
+            <label class="block text-xs font-mono font-semibold text-slate-700 mb-1.5">メールアドレス</label>
+            <input type="email" name="email" required placeholder="hello@example.com" class="w-full px-4 py-3 bg-slate-50/50 border border-slate-200 rounded-xl text-slate-900 text-sm placeholder-slate-400 focus:outline-none focus:border-indigo-600 focus:bg-white focus:ring-2 focus:ring-indigo-100 transition">
+          </div>
+          <div>
+            <label class="block text-xs font-mono font-semibold text-slate-700 mb-1.5">メッセージ</label>
+            <textarea name="message" rows="4" required placeholder="Portable Agentの導入について相談したいです。" class="w-full px-4 py-3 bg-slate-50/50 border border-slate-200 rounded-xl text-slate-900 text-sm placeholder-slate-400 focus:outline-none focus:border-indigo-600 focus:bg-white focus:ring-2 focus:ring-indigo-100 transition"></textarea>
+          </div>
+
+          <button type="submit" id="submit-button" class="w-full py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-sm tracking-tight transition-all shadow-md shadow-indigo-600/20 hover:shadow-lg hover:shadow-indigo-600/30">
+            送信する
+          </button>
+
+          <!-- 送信結果メッセージ（最初は非表示） -->
+          <div id="form-status" class="hidden text-center p-3 rounded-xl text-xs font-medium font-mono"></div>
+        </form>
+      </div>
+
+    </div>
+  </section>
+
   <!-- Site Footer -->
-  <footer class="py-12 px-6 bg-[#F8FAFC] border-t border-slate-200/80 text-center">
+  <footer class="py-12 px-6 bg-white border-t border-slate-200/80 text-center">
     <div class="max-w-3xl mx-auto space-y-1.5 text-xs font-mono text-slate-400">
-      <div class="text-slate-500 font-medium">Portal Agent — Portability-first External Harness Runtime</div>
+      <div class="text-slate-500 font-medium">Portable Agent — Portability-first External Harness Runtime</div>
       <div>© 2026 Ashiras, Inc. All rights reserved.</div>
     </div>
   </footer>
+
+  <!-- 画面遷移なしでFormspreeに送信する非同期スクリプト -->
+  <script>
+    const form = document.getElementById('contact-form');
+    const status = document.getElementById('form-status');
+    const submitBtn = document.getElementById('submit-button');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      // ボタンを「送信中...」にして連打防止
+      submitBtn.disabled = true;
+      const originalText = submitBtn.innerText;
+      submitBtn.innerText = '送信中...';
+      submitBtn.classList.add('opacity-70', 'cursor-not-allowed');
+
+      const data = new FormData(form);
+      
+      try {
+        const response = await fetch(e.target.action, {
+          method: form.method,
+          body: data,
+          headers: {
+            'Accept': 'application/json'
+          }
+        });
+        
+        status.classList.remove('hidden', 'bg-rose-50', 'text-rose-700', 'border', 'border-rose-200');
+        
+        if (response.ok) {
+          form.reset();
+          status.innerText = '✓ メッセージを送信しました。ご連絡ありがとうございます！';
+          status.className = 'text-center p-3 rounded-xl text-xs font-medium font-mono bg-emerald-50 text-emerald-700 border border-emerald-200';
+        } else {
+          status.innerText = 'エラーが発生しました。時間をおいて再度お試しください。';
+          status.className = 'text-center p-3 rounded-xl text-xs font-medium font-mono bg-rose-50 text-rose-700 border border-rose-200';
+        }
+      } catch (error) {
+        status.innerText = '通信エラーが発生しました。ネットワークをご確認ください。';
+        status.className = 'text-center p-3 rounded-xl text-xs font-medium font-mono bg-rose-50 text-rose-700 border border-rose-200';
+      } finally {
+        submitBtn.innerText = originalText;
+        submitBtn.classList.remove('opacity-70', 'cursor-not-allowed');
+        submitBtn.disabled = false;
+      }
+    });
+  </script>
 </body>
 </html>
