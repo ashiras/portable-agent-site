@@ -3,21 +3,40 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <!-- 基本SEOメタタグ -->
+  <title>Portable Agent | 生成AI・AIエージェント向け外部ハーネス環境</title>
+  <meta name="description" content="Portable Agentは、生成AIや自律型AIエージェントの実行状態を外側に保持する外部テストハーネスです。商用クラウド停止やLLMモデル切り替え時でも、タスクを安全に継続・移送できます。" />
+  <meta name="keywords" content="生成AI, AIエージェント, ハーネス, テストハーネス, LLM, BCP, 自律型AI, Portable Agent" />
+  <link rel="canonical" href="https://portableagent.run/" />
+
   <!-- OGP / SNS Card Settings -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://portableagent.run/" />
-  <meta property="og:title" content="Portable Agent — 仕事を持ち運ぶ。LLMは持ち運ばない。" />
-  <meta property="og:description" content="LLMに仕事を閉じ込めない。商用クラウドが止まっても、モデルを切り替えても仕事が途切れない外部ハーネス。" />
+  <meta property="og:title" content="Portable Agent | 生成AI・AIエージェント向け外部ハーネス環境" />
+  <meta property="og:description" content="仕事を持ち運ぶ。LLMは持ち運ばない。商用クラウドが止まっても、モデルを切り替えてもタスクが途切れない生成AI向け外部ハーネス。" />
   <meta property="og:image" content="https://portableagent.run/ogp.png" />
   <meta property="og:site_name" content="Portable Agent" />
   
   <!-- Twitter / X Card -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Portable Agent — 仕事を持ち運ぶ。LLMは持ち運ばない。" />
-  <meta name="twitter:description" content="LLMに仕事を閉じ込めない。商用クラウドが止まっても、モデルを切り替えても仕事が途切れない外部ハーネス。" />
+  <meta name="twitter:title" content="Portable Agent | 生成AI・AIエージェント向け外部ハーネス環境" />
+  <meta name="twitter:description" content="仕事を持ち運ぶ。LLMは持ち運ばない。商用クラウドが止まっても、モデルを切り替えてもタスクが途切れない生成AI向け外部ハーネス。" />
   <meta name="twitter:image" content="https://portableagent.run/ogp.png" />
+
+  <!-- 構造化データ（JSON-LD）: Google検索エンジンへのアピール -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Portable Agent",
+    "operatingSystem": "Cross-platform",
+    "applicationCategory": "DeveloperApplication",
+    "description": "生成AIおよび自律型AIエージェントの実行状態を外部で保持・管理するポータブルなテストハーネス環境",
+    "url": "https://portableagent.run/"
+  }
+  </script>
   
-  <title>Portable Agent — 仕事を持ち運ぶ。LLMは持ち運ばない。</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
@@ -55,7 +74,6 @@
     }
   </script>
   <style>
-    /* 爽やかで開放感のあるグリッド＆ドットパターン */
     .bg-dots {
       background-image: radial-gradient(#CBD5E1 1px, transparent 1px);
       background-size: 28px 28px;
@@ -81,12 +99,12 @@
         </div>
         <div class="flex flex-col">
           <span class="font-bold text-slate-900 tracking-tight text-base leading-none">Portable Agent</span>
-          <span class="text-[10px] font-mono text-indigo-600 font-semibold tracking-wider uppercase mt-0.5">Runtime Harness v2</span>
+          <span class="text-[10px] font-mono text-indigo-600 font-semibold tracking-wider uppercase mt-0.5">生成AI Harness Runtime v2</span>
         </div>
       </div>
 
       <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-600">
-        <a href="#formula" class="hover:text-indigo-600 transition-colors">Workの定義</a>
+        <a href="#formula" class="hover:text-indigo-600 transition-colors">ハーネス設計（Workの定義）</a>
         <a href="#bcp" class="hover:text-indigo-600 transition-colors">3段階BCP & ハードウェア</a>
         <a href="#circuit-breaker" class="hover:text-indigo-600 transition-colors">自律安全弁（Safety Exit）</a>
         <a href="#contact" class="hover:text-indigo-600 transition-colors">お問い合わせ</a>
@@ -111,17 +129,17 @@
           <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
           <span class="relative inline-flex rounded-full h-2 w-2 bg-indigo-600"></span>
         </span>
-        <span>Portability-first External Harness Runtime</span>
+        <span>生成AI・AIエージェント向け External Harness Runtime</span>
       </div>
 
       <h1 class="text-4xl sm:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.15]">
         仕事を持ち運ぶ。<br />
-        <span class="gradient-text">LLMは持ち運ばない。</span>
+        <span class="gradient-text">生成AI（LLM）は持ち運ばない。</span>
       </h1>
 
       <p class="max-w-2xl mx-auto text-base sm:text-lg text-slate-600 leading-relaxed font-normal">
-        LLMに仕事を閉じ込めない。商用クラウドが止まっても、途中でモデルを切り替えても、仕事は決して途切れない。<br class="hidden sm:inline" />
-        <span class="font-semibold text-slate-800">「特定のAIベンダーに依存しない開発継続性（BCP）」</span>を確立する外部ハーネス。
+        生成AIに仕事を閉じ込めない。商用クラウドが止まっても、途中でモデルを切り替えても、タスクは決して途切れない。<br class="hidden sm:inline" />
+        <span class="font-semibold text-slate-800">「特定のAIベンダーに依存しない開発継続性（BCP）」</span>を確立する、AIエージェントのための外部ハーネス環境です。
       </p>
 
       <!-- ステート遷移図カード -->
@@ -141,7 +159,7 @@
             <div class="flex items-center gap-2 text-xs font-mono flex-wrap">
               <span class="px-2.5 py-1 rounded-md bg-slate-100 text-slate-700 font-medium">Task Start (x₀)</span>
               <span class="text-slate-300">→</span>
-              <span class="px-2.5 py-1 rounded-md bg-indigo-50 text-indigo-700 font-medium">商用 LLM (y₁, y₂)</span>
+              <span class="px-2.5 py-1 rounded-md bg-indigo-50 text-indigo-700 font-medium">商用 生成AI (y₁, y₂)</span>
               <span class="text-slate-300">→</span>
               <span class="px-2.5 py-1 rounded-md bg-emerald-50 text-emerald-700 font-semibold border border-emerald-200">Checkpoint 1 保存</span>
             </div>
@@ -149,8 +167,8 @@
             <div class="p-3 bg-amber-50/80 rounded-xl border border-amber-200/60 flex items-start gap-3">
               <span class="text-amber-600 text-lg">⚡</span>
               <div class="text-xs text-amber-900 leading-relaxed">
-                <strong class="font-semibold">商用サービスで障害発生・API停止？</strong><br />
-                仕事（Goal / Plan / Artifact）は外部ハーネスに安全に保存されているためノーダメージ。
+                <strong class="font-semibold">商用AIサービスで障害発生・API停止？</strong><br />
+                仕事（Goal / Plan / Artifact）は外部ハーネスに安全に保持されているためノーダメージ。
               </div>
             </div>
 
@@ -166,7 +184,7 @@
           </div>
 
           <div class="pt-2 text-[11px] font-mono text-slate-400 text-right">
-            ※ 途中でEngineを丸ごと交換しても、仕事はそのまま進む
+            ※ 途中で生成AIエンジンを丸ごと交換しても、ハーネスが状態を維持
           </div>
         </div>
       </div>
@@ -181,11 +199,11 @@
       <div class="text-center max-w-2xl mx-auto space-y-3">
         <span class="text-xs font-mono font-bold tracking-wider text-indigo-600 uppercase bg-indigo-50 px-3 py-1 rounded-full">Definition of Work</span>
         <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">
-          「仕事」は単なるプロンプトではない。
+          生成AIにおける「仕事」は単なるプロンプトではない。
         </h2>
         <p class="text-sm text-slate-600 leading-relaxed">
           LLMに長大な指示を押し付けると、<span class="font-semibold text-slate-800">Softmax Crowding</span> で重要な制約が押し潰され、<span class="font-semibold text-slate-800">Semantic Drift</span> で迷走します。<br />
-          Portable Agent では、実行状態そのものを外部ハーネスで保持します。
+          Portable Agent では、AIエージェントの実行状態そのものを外部ハーネスで確定・保持します。
         </p>
       </div>
 
@@ -196,7 +214,7 @@
           Work = Goal + Plan + Trajectory + Checkpoint + Control State + Artifact + Guard
         </div>
         <p class="text-xs font-mono text-center text-slate-300 pt-3">
-          この7つの状態すべてを外部ハーネスが握っているからこそ、LLMを自由に着脱できる。
+          この7つの状態すべてを外部ハーネスが管理するからこそ、生成AIモデルを自由に着脱・交換できる。
         </p>
       </div>
 
@@ -243,10 +261,10 @@
         <span class="text-xs font-mono font-bold tracking-wider text-sky-600 uppercase bg-sky-50 px-3 py-1 rounded-full">Edge to Enterprise Continuity</span>
         <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">
           ラズパイからワークステーションまで。<br />
-          3段階の事業継続（BCP）マトリクス
+          3段階の生成AI事業継続（BCP）マトリクス
         </h2>
         <p class="text-sm text-slate-600 leading-relaxed">
-          2026年現在、Raspberry Pi 5 + AI HAT+ 2（Hailo-10H 40 TOPS / 専用RAM 8GB）による Coder LLM（Qwen2.5-Coder等）の完全ローカル駆動は公式に実用圏へ到達。ハードウェア規模に合わせて最適な継続モデルを選択可能です。
+          2026年現在、Raspberry Pi 5 + AI HAT+ 2（Hailo-10H 40 TOPS / 専用RAM 8GB）によるコーディング特化型生成AI（Qwen2.5-Coder等）の完全ローカル駆動は公式に実用圏へ到達。外部ハーネスと組み合わせることで、ハードウェア規模に合わせた最適な継続モデルを選択可能です。
         </p>
       </div>
 
@@ -326,7 +344,7 @@
           </div>
           <div class="mt-6 pt-4 border-t border-slate-100 text-xs text-slate-600">
             <strong class="text-slate-800 font-medium">主な用途：</strong><br />
-            商用LLM全面停止時のミッションクリティカル開発継続
+            商用生成AI全面停止時のミッションクリティカル開発継続
           </div>
         </div>
 
@@ -342,7 +360,7 @@
       <div class="text-center max-w-2xl mx-auto space-y-3">
         <span class="text-xs font-mono font-bold tracking-wider text-emerald-600 uppercase bg-emerald-50 px-3 py-1 rounded-full">Deterministic Guard</span>
         <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">
-          無限ループを許さない、2種類の終了条件
+          AIエージェントの暴走・無限ループを防ぐ2つの終了条件
         </h2>
         <div class="text-sm sm:text-base font-mono font-bold text-slate-700 pt-2">
           Exit = Success Exit ∨ Safety Exit
@@ -359,7 +377,7 @@
             </div>
             <div>
               <h3 class="text-lg font-bold text-slate-900">Success Exit（成功終了）</h3>
-              <p class="text-xs text-slate-500">物理的な外部検証（Guard）の完全パス</p>
+              <p class="text-xs text-slate-500">外部ハーネス検証（Guard）の完全パス</p>
             </div>
           </div>
           <ul class="space-y-3 text-xs sm:text-sm text-slate-700 font-medium">
@@ -429,7 +447,7 @@
           <div class="font-mono text-xs font-bold text-slate-400">Portable Agent v1</div>
           <h4 class="font-bold text-slate-800 text-base">Orchestration-first External Harness</h4>
           <p class="text-xs text-slate-600 leading-relaxed">
-            複数のAI・Agent・Engineを外側から接続し、成果物を受け渡しながら仕事を進めることに最適化した外部ハーネス。
+            複数の生成AI・Agent・Engineを外側から接続し、成果物を受け渡しながらタスクを進めることに最適化したオーケストレーションハーネス。
           </p>
         </div>
 
@@ -437,7 +455,7 @@
           <div class="font-mono text-xs font-bold text-indigo-600">Portable Agent v2 [Next Generation]</div>
           <h4 class="font-bold text-indigo-950 text-base">Portability-first External Harness</h4>
           <p class="text-xs text-slate-600 leading-relaxed">
-            Goal、Checkpoint、Guard、Control StateをLLMの外側に保持し、仕事そのものをEngineから切り離して継続・移送することに最適化した外部ハーネス。
+            Goal、Checkpoint、Guard、Control Stateを生成AIの外側に保持。タスクそのものをモデルから切り離して継続・移送することに特化した外部ハーネス。
           </p>
         </div>
 
@@ -450,13 +468,13 @@
     <div class="max-w-3xl mx-auto space-y-6">
       
       <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-        あなたのエージェントを、<br />
+        あなたのAIエージェントを、<br />
         <span class="gradient-text">ベンダーロックインから解放しよう。</span>
       </h2>
 
       <p class="text-sm sm:text-base text-slate-600 max-w-xl mx-auto leading-relaxed">
-        モデルの流行り廃りやクラウド障害に振り回される時代は終わりました。<br />
-        状態を外側に保持し、どこへでも持ち運べる自律開発環境へ。
+        生成AIモデルの流行り廃りやクラウド障害に振り回される時代は終わりました。<br />
+        ハーネスで状態を外側に保持し、どこへでも持ち運べる自律開発環境へ。
       </p>
 
       <div class="pt-4 flex flex-col sm:flex-row justify-center items-center gap-4">
@@ -478,7 +496,7 @@
         <span class="text-xs font-mono font-bold tracking-wider text-indigo-600 uppercase bg-indigo-50 px-3 py-1 rounded-full">Contact</span>
         <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">お問い合わせ</h2>
         <p class="text-sm text-slate-600">
-          Portable Agent に関するご質問や導入・検証のご相談など、お気軽にお送りください。
+          Portable Agent に関するご質問や、生成AIエージェント環境への導入・検証のご相談など、お気軽にお送りください。
         </p>
       </div>
 
@@ -494,14 +512,14 @@
           </div>
           <div>
             <label class="block text-xs font-mono font-semibold text-slate-700 mb-1.5">メッセージ</label>
-            <textarea name="message" rows="4" required placeholder="Portable Agentの導入について相談したいです。" class="w-full px-4 py-3 bg-slate-50/50 border border-slate-200 rounded-xl text-slate-900 text-sm placeholder-slate-400 focus:outline-none focus:border-indigo-600 focus:bg-white focus:ring-2 focus:ring-indigo-100 transition"></textarea>
+            <textarea name="message" rows="4" required placeholder="生成AIエージェントのBCP対策やテストハーネスの導入について相談したいです。" class="w-full px-4 py-3 bg-slate-50/50 border border-slate-200 rounded-xl text-slate-900 text-sm placeholder-slate-400 focus:outline-none focus:border-indigo-600 focus:bg-white focus:ring-2 focus:ring-indigo-100 transition"></textarea>
           </div>
 
           <button type="submit" id="submit-button" class="w-full py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-sm tracking-tight transition-all shadow-md shadow-indigo-600/20 hover:shadow-lg hover:shadow-indigo-600/30">
             送信する
           </button>
 
-          <!-- 送信結果メッセージ（最初は非表示） -->
+          <!-- 送信結果メッセージ -->
           <div id="form-status" class="hidden text-center p-3 rounded-xl text-xs font-medium font-mono"></div>
         </form>
       </div>
@@ -517,7 +535,7 @@
     </div>
   </footer>
 
-  <!-- 画面遷移なしでFormspreeに送信する非同期スクリプト -->
+  <!-- 非同期スクリプト -->
   <script>
     const form = document.getElementById('contact-form');
     const status = document.getElementById('form-status');
@@ -526,7 +544,6 @@
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       
-      // ボタンを「送信中...」にして連打防止
       submitBtn.disabled = true;
       const originalText = submitBtn.innerText;
       submitBtn.innerText = '送信中...';
