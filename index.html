@@ -105,15 +105,16 @@
       </div>
 
       <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-600">
-        <a href="#formula" class="hover:text-indigo-600 transition-colors">ハーネス設計（Workの定義）</a>
-        <a href="#bcp" class="hover:text-indigo-600 transition-colors">3段階BCP & ハードウェア</a>
-        <a href="#circuit-breaker" class="hover:text-indigo-600 transition-colors">自律安全弁（Safety Exit）</a>
-        <a href="#contact" class="hover:text-indigo-600 transition-colors">お問い合わせ</a>
+        <a href="#formula" class="hover:text-indigo-600 transition-colors">Harness Design</a>
+        <a href="#bcp" class="hover:text-indigo-600 transition-colors">BCP Matrix</a>
+        <a href="#circuit-breaker" class="hover:text-indigo-600 transition-colors">Safety Exit</a>
+        <a href="#trajectory" class="hover:text-indigo-600 transition-colors">Trajectory Replay</a>
+        <a href="#contact" class="hover:text-indigo-600 transition-colors">Contact Us</a>
       </nav>
 
       <div class="flex items-center space-x-3">
         <a href="#cta" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-xs sm:text-sm tracking-tight transition-all shadow-md shadow-indigo-600/20 hover:shadow-lg hover:shadow-indigo-600/30">
-          Whitepaperを読む ↗
+          Whitepaper ↗
         </a>
       </div>
     </div>
@@ -439,9 +440,23 @@
     </div>
   </section>
 
-  <!-- Section 4: v1からv2への進化 (Evolution) -->
-  <section class="py-16 px-6 bg-slate-50/80 border-t border-slate-200/80">
-    <div class="max-w-4xl mx-auto">
+  <!-- Section 4: メッセージ＆進化 -->
+  <section id="cta" class="py-20 px-6 bg-slate-50/80 border-t border-slate-200/80">
+    <div class="max-w-4xl mx-auto space-y-12">
+      
+      <!-- メッセージ部分 -->
+      <div class="text-center space-y-6">
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+          あなたのAIエージェントを、<br />
+          <span class="gradient-text">ベンダーロックインから解放しよう。</span>
+        </h2>
+        <p class="text-sm sm:text-base text-slate-600 max-w-xl mx-auto leading-relaxed">
+          生成AIモデルの流行り廃りやクラウド障害に振り回される時代は終わりました。<br />
+          ハーネスで状態を外側に保持し、どこへでも持ち運べる自律開発環境へ。
+        </p>
+      </div>
+
+      <!-- v1からv2への進化カード -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         
         <div class="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-2">
@@ -464,27 +479,346 @@
     </div>
   </section>
 
-  <!-- CTA Section -->
-  <section id="cta" class="py-20 px-6 bg-white border-t border-slate-200/80 text-center">
-    <div class="max-w-3xl mx-auto space-y-6">
+  <!-- Section 5: Actual Trajectory Replay -->
+  <section id="trajectory" class="pa-proof py-20 px-6 bg-white border-t border-slate-200/80" aria-labelledby="pa-proof-title">
+    <style>
+      .pa-proof {
+        --bg: #FFFFFF;
+        --line: #E2E8F0;
+        --text: #0F172A;
+        --muted: #475569;
+        --accent: #4F46E5;
+        --good: #10B981;
+        --bad: #F43F5E;
+        --warn: #F59E0B;
+      }
+      .pa-timeline { position: relative; display: grid; gap: 0; margin: 0; padding: 0; list-style: none; }
+      .pa-timeline::before { content: ""; position: absolute; top: 24px; bottom: 24px; left: 17px; width: 2px; background: var(--line); }
       
-      <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-        あなたのAIエージェントを、<br />
-        <span class="gradient-text">ベンダーロックインから解放しよう。</span>
-      </h2>
+      .pa-step { position: relative; display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: 16px; padding-bottom: 24px; }
+      .pa-step__dot { position: relative; z-index: 1; width: 12px; height: 12px; margin: 20px 0 0 12px; border: 2px solid var(--bg); border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 2px var(--line); }
+      .pa-step--fail .pa-step__dot { background: var(--bad); }
+      .pa-step--pass .pa-step__dot, .pa-step--accept .pa-step__dot, .pa-step--close .pa-step__dot { background: var(--good); }
+      
+      .pa-step__card { border: 1px solid var(--line); border-radius: 16px; overflow: hidden; background: #FFFFFF; box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.04); }
+      .pa-step__head { display: flex; justify-content: space-between; gap: 16px; align-items: flex-start; padding: 20px 24px 16px; }
+      
+      .pa-step__kicker { margin: 0 0 4px; color: var(--muted); font-size: 11px; font-family: 'JetBrains Mono', monospace; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+      .pa-step__title { margin: 0; font-size: 16px; font-weight: 700; color: var(--text); letter-spacing: -0.01em; }
+      .pa-step__desc { margin: 6px 0 0; color: var(--muted); font-size: 13px; line-height: 1.6; }
+      
+      .pa-badge { flex: 0 0 auto; display: inline-flex; align-items: center; border: 1px solid var(--line); border-radius: 999px; padding: 4px 10px; color: var(--muted); background: #F8FAFC; font-size: 11px; font-weight: 700; letter-spacing: 0.05em; }
+      .pa-badge--fail { color: var(--bad); border-color: rgba(244, 63, 94, 0.3); background: #FFF1F2; }
+      .pa-badge--pass { color: var(--good); border-color: rgba(16, 185, 129, 0.3); background: #ECFDF5; }
+      
+      .pa-step__body { padding: 0 24px 24px; }
+      
+      .pa-log { margin: 0; border: 1px solid #1E293B; border-radius: 12px; overflow-x: auto; background: #0F172A; padding: 16px; color: #F8FAFC; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.6; white-space: pre; }
+      .pa-log .good { color: var(--good); } .pa-log .bad { color: var(--bad); } .pa-log .warn { color: var(--warn); } .pa-log .dim { color: #94A3B8; }
+      
+      @media (max-width: 580px) {
+        .pa-step__head { flex-direction: column; padding: 16px; }
+        .pa-step__body { padding: 0 16px 16px !important; }
+        .pa-step { grid-template-columns: 28px minmax(0, 1fr); gap: 12px; }
+        .pa-timeline::before { left: 13px; }
+        .pa-step__dot { margin-left: 8px; }
+      }
+    </style>
 
-      <p class="text-sm sm:text-base text-slate-600 max-w-xl mx-auto leading-relaxed">
-        生成AIモデルの流行り廃りやクラウド障害に振り回される時代は終わりました。<br />
-        ハーネスで状態を外側に保持し、どこへでも持ち運べる自律開発環境へ。
-      </p>
+    <div class="max-w-5xl mx-auto">
+      
+      <!-- 他のセクションと完全に同じフォーマットの見出し -->
+      <div class="text-center max-w-2xl mx-auto space-y-3 mb-12">
+        <span class="text-xs font-mono font-bold tracking-wider text-indigo-600 uppercase bg-indigo-50 px-3 py-1 rounded-full">Actual Trajectory Replay</span>
+        <h2 id="pa-proof-title" class="text-2xl sm:text-3xl font-extrabold text-slate-900">
+          Not “the AI said it works.”<br />
+          The trajectory proved it.
+        </h2>
+        <p class="text-sm sm:text-base text-slate-600 leading-relaxed">
+          Portable Agent does not treat a model response as success.
+          It creates isolated work, lets the LLM inspect and modify the repository,
+          measures the result with an <span class="font-bold text-slate-800">external Guard</span>,
+          retries when necessary, and only then advances to an
+          <span class="font-bold text-slate-800">Accepted Checkpoint</span>.
+        </p>
+      </div>
 
-      <div class="pt-4 flex flex-col sm:flex-row justify-center items-center gap-4">
-        <a href="#" class="px-8 py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-sm transition-all shadow-lg shadow-indigo-600/25 hover:shadow-xl hover:shadow-indigo-600/35">
-          ドキュメントを読む
-        </a>
-        <a href="#contact" class="px-8 py-3.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium text-sm transition-all">
-          お問い合わせはこちら ↘
-        </a>
+      <!-- Tailwindで再構築したFacts -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-16" aria-label="Trajectory properties">
+        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-600 leading-relaxed">
+          <strong class="block text-sm text-slate-900 font-bold mb-1">Isolated Worktree</strong>
+          The human repository stays untouched while the agent works.
+        </div>
+        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-600 leading-relaxed">
+          <strong class="block text-sm text-slate-900 font-bold mb-1">External Guard</strong>
+          Success is measured outside the model.
+        </div>
+        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-600 leading-relaxed">
+          <strong class="block text-sm text-slate-900 font-bold mb-1">Checkpoint Ownership</strong>
+          The LLM may change artifacts. Portable Agent owns the commit transition.
+        </div>
+        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-600 leading-relaxed">
+          <strong class="block text-sm text-slate-900 font-bold mb-1">Explicit Lifecycle</strong>
+          Work is created, accepted, and closed as separate operations.
+        </div>
+      </div>
+
+      <div class="mb-8">
+        <h3 class="text-xl sm:text-2xl font-bold text-slate-900 mb-2 tracking-tight">A real v0.5.0 end-to-end run</h3>
+        <p class="text-sm text-slate-600 leading-relaxed">
+          The sequence below is based on an actual Portable Agent run.
+          The first attempt failed its Guard, the next attempt corrected the artifact,
+          and only then did the trajectory reach Gate ACCEPT.
+        </p>
+      </div>
+
+      <ol class="pa-timeline">
+
+        <li class="pa-step">
+          <div class="pa-step__dot" aria-hidden="true"></div>
+          <article class="pa-step__card">
+            <header class="pa-step__head">
+              <div>
+                <p class="pa-step__kicker">01 · Human Repository</p>
+                <h4 class="pa-step__title">Start from a clean human-owned repository</h4>
+                <p class="pa-step__desc">
+                  Portable Agent begins from the accepted human state. No agent execution occurs on the human branch.
+                </p>
+              </div>
+              <span class="pa-badge">CLEAN</span>
+            </header>
+            <div class="pa-step__body">
+<pre class="pa-log">main
+HEAD: f9a81f1
+README.md:
+# customer-system</pre>
+            </div>
+          </article>
+        </li>
+
+        <li class="pa-step">
+          <div class="pa-step__dot" aria-hidden="true"></div>
+          <article class="pa-step__card">
+            <header class="pa-step__head">
+              <div>
+                <p class="pa-step__kicker">02 · work create</p>
+                <h4 class="pa-step__title">Create an isolated Agent Worktree</h4>
+                <p class="pa-step__desc">
+                  Work gets its own <code>agent/*</code> branch and managed worktree.
+                </p>
+              </div>
+              <span class="pa-badge">ISOLATED</span>
+            </header>
+            <div class="pa-step__body">
+<pre class="pa-log">$ portable-agent work create \
+  --repo customer-system \
+  --agent coder \
+  --task step12-e2e
+
+Work created
+Branch:   agent/coder/step12-e2e/&lt;run-id&gt;
+Worktree: worktrees/customer-system/coder/step12-e2e/&lt;run-id&gt;</pre>
+            </div>
+          </article>
+        </li>
+
+        <li class="pa-step">
+          <div class="pa-step__dot" aria-hidden="true"></div>
+          <article class="pa-step__card">
+            <header class="pa-step__head">
+              <div>
+                <p class="pa-step__kicker">03 · Search / Read / Implement</p>
+                <h4 class="pa-step__title">Let the LLM investigate the repository</h4>
+                <p class="pa-step__desc">
+                  The response-only API model uses Portable Agent's project tools to search,
+                  read, and modify only the managed worktree.
+                </p>
+              </div>
+              <span class="pa-badge">TOOLS</span>
+            </header>
+            <div class="pa-step__body">
+<pre class="pa-log">Repository
+   ↓ search
+Relevant Artifact
+   ↓ read
+Current implementation
+   ↓ apply_patch / write
+<span class="warn">dirty Artifact</span></pre>
+            </div>
+          </article>
+        </li>
+
+        <li class="pa-step pa-step--fail">
+          <div class="pa-step__dot" aria-hidden="true"></div>
+          <article class="pa-step__card">
+            <header class="pa-step__head">
+              <div>
+                <p class="pa-step__kicker">04 · Attempt 1</p>
+                <h4 class="pa-step__title">The model says “done.” The Guard says “not yet.”</h4>
+                <p class="pa-step__desc">
+                  Model completion does not advance the trajectory. The externally executed Guard is authoritative.
+                </p>
+              </div>
+              <span class="pa-badge pa-badge--fail">GUARD FAIL</span>
+            </header>
+            <div class="pa-step__body">
+<pre class="pa-log">Engine final:
+Patch applied successfully.
+
+<span class="bad">Guard status: FAIL</span>
+Guard output:
+README.md must contain exactly: status: step12
+
+Progress: baseline
+Work packet: prepared
+Checkpoint: f9a81f1...
+Packet state: dirty
+Decision: retry</pre>
+            </div>
+          </article>
+        </li>
+
+        <li class="pa-step">
+          <div class="pa-step__dot" aria-hidden="true"></div>
+          <article class="pa-step__card">
+            <header class="pa-step__head">
+              <div>
+                <p class="pa-step__kicker">05 · Work Packet</p>
+                <h4 class="pa-step__title">Retry from explicit external state</h4>
+                <p class="pa-step__desc">
+                  The next attempt receives the current checkpoint, dirty artifact state,
+                  Guard failure, goal, and constraints — not an ever-growing chat history.
+                </p>
+              </div>
+              <span class="pa-badge">RETRY</span>
+            </header>
+            <div class="pa-step__body">
+<pre class="pa-log">Checkpoint:   f9a81f1...
+Artifact:     dirty
+Guard result: FAIL
+Goal:         status: step12
+Next action:  retry</pre>
+            </div>
+          </article>
+        </li>
+
+        <li class="pa-step pa-step--pass">
+          <div class="pa-step__dot" aria-hidden="true"></div>
+          <article class="pa-step__card">
+            <header class="pa-step__head">
+              <div>
+                <p class="pa-step__kicker">06 · Attempt 2</p>
+                <h4 class="pa-step__title">The artifact is corrected and measured again</h4>
+                <p class="pa-step__desc">
+                  The LLM updates the dirty artifact. Portable Agent executes the same Guard again.
+                </p>
+              </div>
+              <span class="pa-badge pa-badge--pass">GUARD PASS</span>
+            </header>
+            <div class="pa-step__body">
+<pre class="pa-log">Engine final:
+README.md updated to contain: status: step12
+
+<span class="good">Guard status: PASS</span>
+Guard exit:   0</pre>
+            </div>
+          </article>
+        </li>
+
+        <li class="pa-step pa-step--accept">
+          <div class="pa-step__dot" aria-hidden="true"></div>
+          <article class="pa-step__card">
+            <header class="pa-step__head">
+              <div>
+                <p class="pa-step__kicker">07 · Gate ACCEPT</p>
+                <h4 class="pa-step__title">Portable Agent advances the Checkpoint</h4>
+                <p class="pa-step__desc">
+                  Only after Guard PASS does Trajectory Control accept the artifact and create a new Checkpoint.
+                </p>
+              </div>
+              <span class="pa-badge pa-badge--pass">ACCEPTED</span>
+            </header>
+            <div class="pa-step__body">
+<pre class="pa-log"><span class="good">Gate: ACCEPT</span>
+Checkpoint operation: created
+Checkpoint: 7f60c4f...
+
+BASE     = f9a81f1...
+ACCEPTED = 7f60c4f...
+checkpoint parent confirmed</pre>
+            </div>
+          </article>
+        </li>
+
+        <li class="pa-step pa-step--close">
+          <div class="pa-step__dot" aria-hidden="true"></div>
+          <article class="pa-step__card">
+            <header class="pa-step__head">
+              <div>
+                <p class="pa-step__kicker">08 · work close</p>
+                <h4 class="pa-step__title">Close the Agent Work lifecycle explicitly</h4>
+                <p class="pa-step__desc">
+                  The managed worktree and agent branch are removed. Portable Agent does not infer whether integration happened.
+                </p>
+              </div>
+              <span class="pa-badge pa-badge--pass">CLOSED</span>
+            </header>
+            <div class="pa-step__body">
+<pre class="pa-log">Work closed
+
+Checkpoint:  7f60c4f...
+Branch:      agent/coder/step12-e2e/... <span class="good">(deleted)</span>
+Worktree:    worktrees/... <span class="good">(removed)</span>
+Monitor:     no runtime state
+Integration: not evaluated</pre>
+            </div>
+          </article>
+        </li>
+
+      </ol>
+
+      <blockquote class="my-12 border-l-4 border-indigo-600 pl-5 text-xl sm:text-2xl font-bold text-slate-900 leading-snug tracking-tight">
+        <span class="block text-sm font-medium text-slate-500 mb-1.5">The model generates.</span>
+        Portable Agent decides whether the trajectory may advance.
+      </blockquote>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+        <article class="p-6 rounded-2xl bg-white border border-slate-200 shadow-card">
+          <h3 class="text-base font-bold text-slate-900 mb-2">Agent side</h3>
+          <p class="text-sm text-slate-600 mb-4 leading-relaxed">The agent produced and accepted a changed artifact inside its isolated worktree.</p>
+<pre class="pa-log">README.md:
+# customer-system
+<span class="good">status: step12</span>
+
+Accepted Checkpoint:
+7f60c4f...</pre>
+        </article>
+
+        <article class="p-6 rounded-2xl bg-white border border-slate-200 shadow-card">
+          <h3 class="text-base font-bold text-slate-900 mb-2">Human side</h3>
+          <p class="text-sm text-slate-600 mb-4 leading-relaxed">The human-owned main branch remained exactly where it started.</p>
+<pre class="pa-log">main
+HEAD: f9a81f1
+
+README.md:
+# customer-system
+
+<span class="good">unchanged</span></pre>
+        </article>
+      </div>
+
+      <div class="mt-16 pt-8 border-t border-slate-200">
+        <div class="max-w-3xl">
+          <h3 class="text-xl sm:text-2xl font-bold text-slate-900 mb-3 tracking-tight">A full trajectory, not just a model response.</h3>
+          <p class="text-sm sm:text-base text-slate-600 leading-relaxed">
+            Portable Agent separates generation from acceptance:
+            <code class="text-emerald-700 font-mono text-xs px-1.5 py-0.5 bg-emerald-50 border border-emerald-100 rounded">Artifact</code>, 
+            <code class="text-emerald-700 font-mono text-xs px-1.5 py-0.5 bg-emerald-50 border border-emerald-100 rounded">Guard</code>, 
+            <code class="text-emerald-700 font-mono text-xs px-1.5 py-0.5 bg-emerald-50 border border-emerald-100 rounded">Gate</code>, and 
+            <code class="text-emerald-700 font-mono text-xs px-1.5 py-0.5 bg-emerald-50 border border-emerald-100 rounded">Checkpoint</code> are explicit runtime boundaries.
+            The LLM is a replaceable Engine. The trajectory is controlled outside the model.
+          </p>
+        </div>
       </div>
     </div>
   </section>
