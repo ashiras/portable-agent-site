@@ -113,7 +113,7 @@
       </nav>
 
       <div class="flex items-center space-x-3">
-        <a href="#cta" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-xs sm:text-sm tracking-tight transition-all shadow-md shadow-indigo-600/20 hover:shadow-lg hover:shadow-indigo-600/30">
+        <a href="#contact" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-xs sm:text-sm tracking-tight transition-all shadow-md shadow-indigo-600/20 hover:shadow-lg hover:shadow-indigo-600/30">
           Whitepaper ↗
         </a>
       </div>
@@ -140,7 +140,7 @@
       </h1>
 
       <p class="max-w-2xl mx-auto text-base sm:text-lg text-slate-600 leading-relaxed font-normal">
-        生成AIに仕事を閉じ込めない。商用クラウドが止まっても、途中でモデルを切り替えても、タスクは決して途切れない。<br class="hidden sm:inline" />
+        生成AIに仕事を閉じ込めない。商用クラウドが止まっても、途中でモデルを切り替えても、タスクは決して途切れません。<br class="hidden sm:inline" />
         <span class="font-semibold text-slate-800">「特定のAIベンダーに依存しない開発継続性（BCP）」</span>を確立する、AIエージェントのための外部ハーネス環境です。
       </p>
 
@@ -262,7 +262,7 @@
       <div class="max-w-2xl space-y-3">
         <span class="text-xs font-mono font-bold tracking-wider text-sky-600 uppercase bg-sky-50 px-3 py-1 rounded-full">Edge to Enterprise Continuity</span>
         <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">
-          ラズパイからワークステーションまで。<br />
+          Raspberry Piからワークステーションまで。<br />
           3段階の生成AI事業継続（BCP）マトリクス
         </h2>
         <p class="text-sm text-slate-600 leading-relaxed">
@@ -364,8 +364,9 @@
         <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">
           AIエージェントの暴走・無限ループを防ぐ2つの終了条件
         </h2>
-        <div class="text-sm sm:text-base font-mono font-bold text-slate-700 pt-2">
-          Exit = Success Exit ∨ Safety Exit
+        <div class="text-sm sm:text-base font-mono font-bold text-slate-700 pt-2 flex flex-col items-center">
+          <span>Exit = Success Exit ∨ Safety Exit</span>
+          <span class="text-xs text-slate-500 font-normal mt-1">（終了条件 ＝ 成功終了 または 安全遮断）</span>
         </div>
       </div>
 
@@ -440,42 +441,134 @@
     </div>
   </section>
 
-  <!-- Section 4: メッセージ＆進化 -->
-  <section id="cta" class="py-20 px-6 bg-slate-50/80 border-t border-slate-200/80">
-    <div class="max-w-4xl mx-auto space-y-12">
+  <!-- Section 4: エコシステム全体像（全パッケージの統合） -->
+  <section id="cta" class="py-24 px-6 bg-slate-900 text-white relative overflow-hidden border-t border-slate-800">
+    <!-- 背景アクセント: スイート全体を包み込むトーンへ切り替え -->
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-indigo-900/40 via-slate-900 to-slate-900 pointer-events-none"></div>
+
+    <div class="max-w-5xl mx-auto space-y-16 relative z-10">
       
-      <!-- メッセージ部分 -->
-      <div class="text-center space-y-6">
-        <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-          あなたのAIエージェントを、<br />
-          <span class="gradient-text">ベンダーロックインから解放しよう。</span>
+      <!-- メッセージ部分: 解放 (スイート全体の提供価値) -->
+      <div class="text-center space-y-4 max-w-3xl mx-auto">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-900/40 border border-indigo-700/50 text-indigo-200 font-mono text-xs font-semibold uppercase tracking-widest">
+          Portable Agent Ecosystem Suite
+        </div>
+        <h2 class="text-3xl sm:text-5xl font-extrabold tracking-tight leading-[1.2] text-white">
+          拡張・収束・実行を繋ぐ、<br />
+          <span class="bg-gradient-to-r from-sky-400 via-indigo-300 to-emerald-400 bg-clip-text text-transparent">
+            新しいAIアーキテクチャ
+          </span>
         </h2>
-        <p class="text-sm sm:text-base text-slate-600 max-w-xl mx-auto leading-relaxed">
-          生成AIモデルの流行り廃りやクラウド障害に振り回される時代は終わりました。<br />
-          ハーネスで状態を外側に保持し、どこへでも持ち運べる自律開発環境へ。
+        <p class="text-sm sm:text-base text-slate-300 leading-relaxed pt-2">
+          ここまで紹介した実行系ハーネス「Portable Agent v2」をコアに据え、<br class="hidden sm:inline" />
+          対話・検討・実行の3製品をシームレスに連携。特定モデルの変遷や障害に左右されない開発環境を完成させます。
         </p>
       </div>
 
-      <!-- v1からv2への進化カード -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- 3製品のポートフォリオカード (3カラム) -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto mt-8">
         
-        <div class="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-2">
-          <div class="font-mono text-xs font-bold text-slate-400">Portable Agent v1</div>
-          <h4 class="font-bold text-slate-800 text-base">Orchestration-first External Harness</h4>
-          <p class="text-xs text-slate-600 leading-relaxed">
-            複数の生成AI・Agent・Engineを外側から接続し、成果物を受け渡しながらタスクを進めることに最適化したオーケストレーションハーネス。
+        <!-- Gateway (Expand) -->
+        <div class="p-6 rounded-2xl bg-slate-800/80 border border-sky-500/30 shadow-lg space-y-3 relative overflow-hidden backdrop-blur transition-all hover:border-sky-400/50">
+          <div class="flex justify-between items-center pb-2 border-b border-slate-700/60">
+            <span class="text-[10px] font-mono font-bold text-sky-400 uppercase tracking-widest">01. Expand</span>
+            <span class="text-[10px] font-mono text-slate-400">Front Door</span>
+          </div>
+          <div class="font-mono text-xs font-bold text-sky-300">Portable Agent Gateway</div>
+          <h4 class="font-bold text-white text-base">Open WebUI Integration</h4>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            通常のChat体験から複数AIによる検討へ自然に移行。コンテキストを整理して後続へHandoffする入口。
           </p>
         </div>
 
-        <div class="p-6 rounded-2xl bg-gradient-to-br from-indigo-50/80 to-white border-2 border-indigo-500/40 shadow-soft space-y-2">
-          <div class="font-mono text-xs font-bold text-indigo-600">Portable Agent v2 [Next Generation]</div>
-          <h4 class="font-bold text-indigo-950 text-base">Portability-first External Harness</h4>
-          <p class="text-xs text-slate-600 leading-relaxed">
-            Goal、Checkpoint、Guard、Control Stateを生成AIの外側に保持。タスクそのものをモデルから切り離して継続・移送することに特化した外部ハーネス。
+        <!-- v1 (Converge) -->
+        <div class="p-6 rounded-2xl bg-slate-800/80 border border-indigo-500/30 shadow-lg space-y-3 relative overflow-hidden backdrop-blur transition-all hover:border-indigo-400/50">
+          <div class="flex justify-between items-center pb-2 border-b border-slate-700/60">
+            <span class="text-[10px] font-mono font-bold text-indigo-400 uppercase tracking-widest">02. Converge</span>
+            <span class="text-[10px] font-mono text-slate-400">Brainstorm Engine</span>
+          </div>
+          <div class="font-mono text-xs font-bold text-indigo-300">Portable Agent v1</div>
+          <h4 class="font-bold text-white text-base">multi-ai-cli</h4>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            複数のAIとShared Blackboard上で論点を整理・反論・比較。人間が判断を下せる状態（Goal）を作る。
+          </p>
+        </div>
+
+        <!-- v2 (Constrain) -->
+        <div class="p-6 rounded-2xl bg-slate-800/80 border-2 border-emerald-500/50 shadow-lg space-y-3 relative overflow-hidden backdrop-blur transition-all hover:border-emerald-400/80">
+          <div class="flex justify-between items-center pb-2 border-b border-slate-700/60">
+            <span class="text-[10px] font-mono font-bold text-emerald-400 uppercase tracking-widest">03. Constrain</span>
+            <span class="text-[10px] font-mono text-emerald-300 font-bold">This Core Runtime</span>
+          </div>
+          <div class="font-mono text-xs font-bold text-emerald-300">Portable Agent v2 [Next Gen]</div>
+          <h4 class="font-bold text-white text-base">Portability-first Harness</h4>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            固定されたGoalに従い、外部GuardとCheckpointで自律実行。モデル障害時もタスクを継続する主軸エンジン。
           </p>
         </div>
 
       </div>
+
+      <!-- メッセージ部分: 3つの軌道へ接続 -->
+      <div class="pt-12 text-center space-y-4 max-w-3xl mx-auto border-t border-slate-800">
+        <h3 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
+          「確実な成果」へ導く統合ソリューション
+        </h3>
+        <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">
+          AI explores. AI structures. Human decides. AI executes.<br />
+          単一のモデルに依存せず、フェーズごとに役割をコントロールする3つの軌道（Trajectory）。
+        </p>
+      </div>
+
+      <!-- 3つの輪（図解ブロック / ダークテーマ対応） -->
+      <div class="relative max-w-5xl mx-auto mt-12">
+        <!-- 輪を繋ぐ背景のライン (PC表示用) -->
+        <div class="hidden md:block absolute top-1/2 left-12 right-12 h-1 bg-gradient-to-r from-sky-500/50 via-indigo-500/50 to-emerald-500/50 -translate-y-1/2 z-0 rounded-full"></div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-4 relative z-10">
+          
+          <!-- 輪1: Expand -->
+          <div class="group relative bg-slate-800/90 backdrop-blur-md p-8 rounded-full aspect-square border-4 border-sky-500/30 shadow-2xl shadow-sky-900/20 flex flex-col items-center justify-center text-center transition-all duration-300 hover:border-sky-400/60">
+            <span class="absolute top-8 text-sky-400 font-mono text-xs font-bold tracking-widest uppercase">01. Expand</span>
+            <div class="mt-4">
+              <h3 class="text-2xl font-extrabold text-white mb-2">拡張</h3>
+              <div class="text-xs text-slate-300 leading-relaxed space-y-1.5">
+                <p><span class="font-bold text-white">✔️</span> Exploration</p>
+                <p><span class="font-bold text-white">→</span> Portable Agent Gateway</p>
+                <p class="pt-2 border-t border-slate-700 mt-2 text-slate-400">通常のChatからシームレスに連携。可能性を広げ、人間が意思決定するための判断材料を整える。</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 輪2: Converge -->
+          <div class="group relative bg-slate-800/90 backdrop-blur-md p-8 rounded-full aspect-square border-4 border-indigo-500/30 shadow-2xl shadow-indigo-900/20 flex flex-col items-center justify-center text-center transition-all duration-300 hover:border-indigo-400/60 md:scale-105">
+            <span class="absolute top-8 text-indigo-400 font-mono text-xs font-bold tracking-widest uppercase">02. Converge</span>
+            <div class="mt-4">
+              <h3 class="text-2xl font-extrabold text-white mb-2">収束</h3>
+              <div class="text-xs text-slate-300 leading-relaxed space-y-1.5">
+                <p><span class="font-bold text-white">✔️</span> Goal-Formation</p>
+                <p><span class="font-bold text-white">→</span> Portable Agent v1</p>
+                <p class="pt-2 border-t border-slate-700 mt-2 text-slate-400">広げたアイデアを比較・整理。Blackboard上で明確な「Goal」を定義し、論点を固定する。</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 輪3: Constrain -->
+          <div class="group relative bg-slate-800/90 backdrop-blur-md p-8 rounded-full aspect-square border-4 border-emerald-500/30 shadow-2xl shadow-emerald-900/20 flex flex-col items-center justify-center text-center transition-all duration-300 hover:border-emerald-400/60">
+            <span class="absolute top-8 text-emerald-400 font-mono text-xs font-bold tracking-widest uppercase">03. Constrain</span>
+            <div class="mt-4">
+              <h3 class="text-2xl font-extrabold text-white mb-2">実行</h3>
+              <div class="text-xs text-slate-300 leading-relaxed space-y-1.5">
+                <p><span class="font-bold text-white">✔️</span> Goal-Directed</p>
+                <p><span class="font-bold text-white">→</span> Portable Agent v2</p>
+                <p class="pt-2 border-t border-slate-700 mt-2 text-slate-400">決定したGoalに従い一直線に実行。勝手な論点の追加はせず、固定された目標を成果へ変換。</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
     </div>
   </section>
 
