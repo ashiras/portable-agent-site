@@ -106,8 +106,8 @@
 
       <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-600">
         <a href="#formula" class="hover:text-indigo-600 transition-colors">Harness Design</a>
-        <a href="#bcp" class="hover:text-indigo-600 transition-colors">BCP Matrix</a>
         <a href="#circuit-breaker" class="hover:text-indigo-600 transition-colors">Safety Exit</a>
+        <a href="#ecosystem" class="hover:text-indigo-600 transition-colors">Ecosystem</a>
         <a href="#trajectory" class="hover:text-indigo-600 transition-colors">Trajectory Replay</a>
         <a href="#contact" class="hover:text-indigo-600 transition-colors">Contact Us</a>
       </nav>
@@ -255,106 +255,6 @@
     </div>
   </section>
 
-  <!-- Section 2: 3段階BCP & ハードウェア階層 -->
-  <section id="bcp" class="py-20 px-6 bg-[#F8FAFC]">
-    <div class="max-w-5xl mx-auto space-y-12">
-      
-      <div class="max-w-2xl space-y-3">
-        <span class="text-xs font-mono font-bold tracking-wider text-sky-600 uppercase bg-sky-50 px-3 py-1 rounded-full">Edge to Enterprise Continuity</span>
-        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">
-          Raspberry Piからワークステーションまで。<br />
-          3段階の生成AI事業継続（BCP）マトリクス
-        </h2>
-        <p class="text-sm text-slate-600 leading-relaxed">
-          2026年現在、Raspberry Pi 5 + AI HAT+ 2（Hailo-10H 40 TOPS / 専用RAM 8GB）によるコーディング特化型生成AI（Qwen2.5-Coder等）の完全ローカル駆動は公式に実用圏へ到達。外部ハーネスと組み合わせることで、ハードウェア規模に合わせた最適な継続モデルを選択可能です。
-        </p>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        
-        <!-- Level 1 -->
-        <div class="p-6 rounded-2xl bg-white border border-slate-200/80 shadow-card hover:border-sky-400 transition-all flex flex-col justify-between">
-          <div class="space-y-4">
-            <div class="flex items-center justify-between">
-              <span class="px-2.5 py-1 rounded-md bg-sky-50 text-sky-700 font-mono text-xs font-bold">LEVEL 01</span>
-              <span class="text-xs font-mono text-slate-400">エッジ実証</span>
-            </div>
-            <h3 class="text-lg font-bold text-slate-900">インパクト実証</h3>
-            <div class="space-y-2 text-xs">
-              <div class="flex justify-between py-1.5 border-b border-slate-100">
-                <span class="text-slate-500">モデル目安</span>
-                <span class="font-mono font-bold text-slate-800">1.5B 〜 3B</span>
-              </div>
-              <div class="flex justify-between py-1.5 border-b border-slate-100">
-                <span class="text-slate-500">ハードウェア</span>
-                <span class="font-semibold text-slate-800 text-right">Raspberry Pi 5<br/>+ AI HAT+ 2</span>
-              </div>
-            </div>
-          </div>
-          <div class="mt-6 pt-4 border-t border-slate-100 text-xs text-slate-600">
-            <strong class="text-slate-800 font-medium">主な用途：</strong><br />
-            小修正、テスト修正、限定ループ実行
-          </div>
-        </div>
-
-        <!-- Level 2 -->
-        <div class="p-6 rounded-2xl bg-white border-2 border-indigo-500/30 shadow-card relative hover:border-indigo-500 transition-all flex flex-col justify-between">
-          <div class="absolute -top-3 right-4 px-2.5 py-0.5 rounded-full bg-indigo-600 text-white font-mono text-[10px] font-bold uppercase tracking-wider">
-            Standard Floor
-          </div>
-          <div class="space-y-4">
-            <div class="flex items-center justify-between">
-              <span class="px-2.5 py-1 rounded-md bg-indigo-50 text-indigo-700 font-mono text-xs font-bold">LEVEL 02</span>
-              <span class="text-xs font-mono text-indigo-600 font-semibold">実用フロア</span>
-            </div>
-            <h3 class="text-lg font-bold text-slate-900">実用 Floor</h3>
-            <div class="space-y-2 text-xs">
-              <div class="flex justify-between py-1.5 border-b border-slate-100">
-                <span class="text-slate-500">モデル目安</span>
-                <span class="font-mono font-bold text-slate-800">7B 〜 14B</span>
-              </div>
-              <div class="flex justify-between py-1.5 border-b border-slate-100">
-                <span class="text-slate-500">ハードウェア</span>
-                <span class="font-semibold text-slate-800">16〜32GB RAM/VRAM級</span>
-              </div>
-            </div>
-          </div>
-          <div class="mt-6 pt-4 border-t border-slate-100 text-xs text-slate-600">
-            <strong class="text-slate-800 font-medium">主な用途：</strong><br />
-            標準的なCRUD実装、自動テスト作成、自律修正ループ
-          </div>
-        </div>
-
-        <!-- Level 3 -->
-        <div class="p-6 rounded-2xl bg-white border border-slate-200/80 shadow-card hover:border-purple-400 transition-all flex flex-col justify-between">
-          <div class="space-y-4">
-            <div class="flex items-center justify-between">
-              <span class="px-2.5 py-1 rounded-md bg-purple-50 text-purple-700 font-mono text-xs font-bold">LEVEL 03</span>
-              <span class="text-xs font-mono text-slate-400">エンタープライズ</span>
-            </div>
-            <h3 class="text-lg font-bold text-slate-900">本格 BCP</h3>
-            <div class="space-y-2 text-xs">
-              <div class="flex justify-between py-1.5 border-b border-slate-100">
-                <span class="text-slate-500">モデル目安</span>
-                <span class="font-mono font-bold text-slate-800">30B 級</span>
-              </div>
-              <div class="flex justify-between py-1.5 border-b border-slate-100">
-                <span class="text-slate-500">ハードウェア</span>
-                <span class="font-semibold text-slate-800">32〜64GB RAM/VRAM級</span>
-              </div>
-            </div>
-          </div>
-          <div class="mt-6 pt-4 border-t border-slate-100 text-xs text-slate-600">
-            <strong class="text-slate-800 font-medium">主な用途：</strong><br />
-            商用生成AI全面停止時のミッションクリティカル開発継続
-          </div>
-        </div>
-
-      </div>
-
-    </div>
-  </section>
-
   <!-- Section 3: 自律安全弁（Exit条件の二分化） -->
   <section id="circuit-breaker" class="py-20 px-6 bg-white border-t border-slate-200/80">
     <div class="max-w-5xl mx-auto space-y-12">
@@ -442,7 +342,7 @@
   </section>
 
   <!-- Section 4: エコシステム全体像（全パッケージの統合） -->
-  <section id="cta" class="py-24 px-6 bg-slate-900 text-white relative overflow-hidden border-t border-slate-800">
+  <section id="ecosystem" class="py-24 px-6 bg-slate-900 text-white relative overflow-hidden border-t border-slate-800">
     <!-- 背景アクセント: スイート全体を包み込むトーンへ切り替え -->
     <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-indigo-900/40 via-slate-900 to-slate-900 pointer-events-none"></div>
 
