@@ -374,10 +374,10 @@
             <span class="text-[10px] font-mono font-bold text-sky-400 uppercase tracking-widest">01. Expand</span>
             <span class="text-[10px] font-mono text-slate-400">Front Door</span>
           </div>
-          <div class="font-mono text-xs font-bold text-sky-300">Portable Agent Gateway</div>
-          <h4 class="font-bold text-white text-base">Integration Project</h4>
+          <div class="font-mono text-xs font-bold text-sky-300">Portable Agent Chat</div>
+          <h4 class="font-bold text-white text-base">Lightweight Chat UI</h4>
           <p class="text-xs text-slate-400 leading-relaxed">
-            通常のChat体験から複数AIによる検討へ自然に移行。コンテキストを整理して後続へHandoffする入口。
+            肥大化した汎用UIフレームワークを排除し、対話に特化した軽量フロントエンド。探索的プロンプティングからAgent群の検討フェーズへシームレスに移行し、コンテキストを構造化して後続へHandoffする。
           </p>
         </div>
 
@@ -390,7 +390,7 @@
           <div class="font-mono text-xs font-bold text-indigo-300">Portable Agent v1</div>
           <h4 class="font-bold text-white text-base">Orchestration-first Harness</h4>
           <p class="text-xs text-slate-400 leading-relaxed">
-            複数のAIとShared Blackboard上で論点を整理・反論・比較。人間が判断を下せる状態（Goal）を作る。
+            複数モデルを協調動作させ、Shared Blackboard上でパラメーターの競合や論点を整理・反論・比較。発散したコンテキストを収束させ、後続の実行系が参照可能な不変の「Goal」として定義する。
           </p>
         </div>
 
@@ -403,7 +403,7 @@
           <div class="font-mono text-xs font-bold text-emerald-300">Portable Agent v2 [Next Gen]</div>
           <h4 class="font-bold text-white text-base">Portability-first Harness</h4>
           <p class="text-xs text-slate-400 leading-relaxed">
-            固定されたGoalに従い、外部GuardとCheckpointで自律実行。モデル障害時もタスクを継続する主軸エンジン。
+            収束したGoalを絶対の制約とし、外部Guard検証とGit Checkpointによって自律実行を制御。ベンダー依存を排除し、モデル障害時も状態を失わずタスクを継続するコア・ランタイム。
           </p>
         </div>
 
@@ -434,8 +434,8 @@
               <h3 class="text-2xl font-extrabold text-white mb-2">拡張</h3>
               <div class="text-xs text-slate-300 leading-relaxed space-y-1.5">
                 <p><span class="font-bold text-white">✔️</span> Exploration</p>
-                <p><span class="font-bold text-white">→</span> Portable Agent Gateway</p>
-                <p class="pt-2 border-t border-slate-700 mt-2 text-slate-400">通常のChatからシームレスに連携。可能性を広げ、人間が意思決定するための判断材料を整える。</p>
+                <p><span class="font-bold text-white">→</span> Portable Agent Chat</p>
+                <p class="pt-2 border-t border-slate-700 mt-2 text-slate-400">独自開発の軽量UIからEntryPointとして機能。探索的対話を通じて要件を発散させ、人間が素早く意思決定・方向づけを行うためのコンテキストを構築する。</p>
               </div>
             </div>
           </div>
@@ -448,7 +448,7 @@
               <div class="text-xs text-slate-300 leading-relaxed space-y-1.5">
                 <p><span class="font-bold text-white">✔️</span> Goal-Formation</p>
                 <p><span class="font-bold text-white">→</span> Portable Agent v1</p>
-                <p class="pt-2 border-t border-slate-700 mt-2 text-slate-400">広げたアイデアを比較・整理。Blackboard上で明確な「Goal」を定義し、論点を固定する。</p>
+                <p class="pt-2 border-t border-slate-700 mt-2 text-slate-400">複数Agentによる自律的な討議プロセスをオーケストレーション。拡張フェーズの情報を整理・比較し、実行に向けた明確な「Goal」として要件をロックする。</p>
               </div>
             </div>
           </div>
@@ -461,7 +461,7 @@
               <div class="text-xs text-slate-300 leading-relaxed space-y-1.5">
                 <p><span class="font-bold text-white">✔️</span> Goal-Directed</p>
                 <p><span class="font-bold text-white">→</span> Portable Agent v2</p>
-                <p class="pt-2 border-t border-slate-700 mt-2 text-slate-400">決定したGoalに従い一直線に実行。勝手な論点の追加はせず、固定された目標を成果へ変換。</p>
+                <p class="pt-2 border-t border-slate-700 mt-2 text-slate-400">ロックされたGoalに基づく決定論的な実行サイクル。Semantic Driftを防ぎつつ、状態管理ハーネス上で検証と試行を繰り返し、目標を確実なArtifactへ変換する。</p>
               </div>
             </div>
           </div>
