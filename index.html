@@ -472,7 +472,13 @@
     </div>
   </section>
 
+
+
+
+
+
   <!-- Section 5: Actual Trajectory Replay -->
+<!-- Section 5: Actual Trajectory Replay -->
   <section id="trajectory" class="pa-proof py-20 px-6 bg-white border-t border-slate-200/80" aria-labelledby="pa-proof-title">
     <style>
       .pa-proof {
@@ -520,7 +526,7 @@
 
     <div class="max-w-5xl mx-auto">
       
-      <!-- 他のセクションと完全に同じフォーマットの見出し -->
+      <!-- 見出し -->
       <div class="text-center max-w-2xl mx-auto space-y-3 mb-12">
         <span class="text-xs font-mono font-bold tracking-wider text-indigo-600 uppercase bg-indigo-50 px-3 py-1 rounded-full">Actual Trajectory Replay</span>
         <h2 id="pa-proof-title" class="text-2xl sm:text-3xl font-extrabold text-slate-900">
@@ -536,7 +542,7 @@
         </p>
       </div>
 
-      <!-- Tailwindで再構築したFacts -->
+      <!-- Facts -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-16" aria-label="Trajectory properties">
         <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-600 leading-relaxed">
           <strong class="block text-sm text-slate-900 font-bold mb-1">Isolated Worktree</strong>
@@ -557,218 +563,167 @@
       </div>
 
       <div class="mb-8">
-        <h3 class="text-xl sm:text-2xl font-bold text-slate-900 mb-2 tracking-tight">A real v0.5.0 end-to-end run</h3>
+        <h3 class="text-xl sm:text-2xl font-bold text-slate-900 mb-2 tracking-tight">A real v0.7.0 end-to-end run</h3>
         <p class="text-sm text-slate-600 leading-relaxed">
           The sequence below is based on an actual Portable Agent run.
+          In v0.7.0, the Work Definition (<code>.pa</code>) and the Execution Engine (<code>--agent</code>) are fully decoupled. You can also see the Agent's local trajectory clearly using Tool Protocol debugging.
           The first attempt failed its Guard, the next attempt corrected the artifact,
           and only then did the trajectory reach Gate ACCEPT.
         </p>
       </div>
 
-      <ol class="pa-timeline">
+<ol class="pa-timeline">
 
+        <!-- Step 1: 実行と計画 -->
         <li class="pa-step">
           <div class="pa-step__dot" aria-hidden="true"></div>
           <article class="pa-step__card">
             <header class="pa-step__head">
               <div>
-                <p class="pa-step__kicker">01 · Human Repository</p>
-                <h4 class="pa-step__title">Start from a clean human-owned repository</h4>
+                <p class="pa-step__kicker">01 · Command Execution</p>
+                <h4 class="pa-step__title">PlanとAgentを指定して実行</h4>
                 <p class="pa-step__desc">
-                  Portable Agent begins from the accepted human state. No agent execution occurs on the human branch.
+                  local-agentエージェントにタスクを委譲し、4つの検証ステージ（format, lint, typecheck, test）を持つプロジェクトパイプラインを開始します。
                 </p>
               </div>
-              <span class="pa-badge">CLEAN</span>
+              <span class="pa-badge">START</span>
             </header>
             <div class="pa-step__body">
-<pre class="pa-log">main
-HEAD: f9a81f1
-README.md:
-# customer-system</pre>
+<pre class="pa-log">$ ./portable-agent run \
+  --plan tasks/implement-greeting.pa \
+  --agent local-agent \
+  --mode takeover \
+  --worktree "$WORKTREE"
+
+Plan:         tasks/implement-greeting.pa
+Agent:        local-agent
+Mode:         takeover
+Project Pipeline started</pre>
             </div>
           </article>
         </li>
 
+        <!-- Step 2: ツールプロトコルと自律動作 (Read) -->
         <li class="pa-step">
           <div class="pa-step__dot" aria-hidden="true"></div>
           <article class="pa-step__card">
             <header class="pa-step__head">
               <div>
-                <p class="pa-step__kicker">02 · work create</p>
-                <h4 class="pa-step__title">Create an isolated Agent Worktree</h4>
+                <p class="pa-step__kicker">02 · Tool Protocol (Observe)</p>
+                <h4 class="pa-step__title">Agentがリポジトリを自律的に調査</h4>
                 <p class="pa-step__desc">
-                  Work gets its own <code>agent/*</code> branch and managed worktree.
+                  対象のコード（greeting.py）とテストコードを読み込み、現在の実装状況と設計（Plan）との差分をAgent自身が調査・判断します。
                 </p>
               </div>
-              <span class="pa-badge">ISOLATED</span>
+              <span class="pa-badge">OBSERVE</span>
             </header>
             <div class="pa-step__body">
-<pre class="pa-log">$ portable-agent work create \
-  --repo customer-system \
-  --agent coder \
-  --task step12-e2e
-
-Work created
-Branch:   agent/coder/step12-e2e/&lt;run-id&gt;
-Worktree: worktrees/customer-system/coder/step12-e2e/&lt;run-id&gt;</pre>
+<pre class="pa-log">[tool-protocol] response #1 tool_call read args={"path":"src/problem/greeting.py"}
+[tool-protocol] tool_result #1 {"ok":true, ... content ...}
+[tool-protocol] response #2 tool_call read args={"path":"tests/unit/problem/test_greeting.py"}
+[tool-protocol] tool_result #2 {"ok":true, ... content ...}</pre>
             </div>
           </article>
         </li>
 
+        <!-- Step 3: ファイルの更新 (Write) -->
         <li class="pa-step">
           <div class="pa-step__dot" aria-hidden="true"></div>
           <article class="pa-step__card">
             <header class="pa-step__head">
               <div>
-                <p class="pa-step__kicker">03 · Search / Read / Implement</p>
-                <h4 class="pa-step__title">Let the LLM investigate the repository</h4>
+                <p class="pa-step__kicker">03 · Artifact Mutation</p>
+                <h4 class="pa-step__title">指示に基づくコードの作成と更新</h4>
                 <p class="pa-step__desc">
-                  The response-only API model uses Portable Agent's project tools to search,
-                  read, and modify only the managed worktree.
+                  調査結果に基づき、Agentが実際にファイルを更新します。メインロジックの修正とテストの追加を行い、タスクの完了を宣言します。
                 </p>
               </div>
-              <span class="pa-badge">TOOLS</span>
+              <span class="pa-badge">MUTATE</span>
             </header>
             <div class="pa-step__body">
-<pre class="pa-log">Repository
-   ↓ search
-Relevant Artifact
-   ↓ read
-Current implementation
-   ↓ apply_patch / write
-<span class="warn">dirty Artifact</span></pre>
+<pre class="pa-log"><span class="dim">[agent:execute]</span> mutating src/problem/greeting.py ... <span class="good">OK</span> (342 bytes)
+<span class="dim">[agent:execute]</span> mutating tests/unit/problem/test_greeting.py ... <span class="good">OK</span> (512 bytes)
+<span class="dim">[agent:execute]</span> <span class="good">final: Greeting feature added successfully. All files created as specified.</span>
+
+Engine final:
+Greeting feature added successfully. All files created as specified.</pre>
             </div>
           </article>
         </li>
 
-        <li class="pa-step pa-step--fail">
-          <div class="pa-step__dot" aria-hidden="true"></div>
-          <article class="pa-step__card">
-            <header class="pa-step__head">
-              <div>
-                <p class="pa-step__kicker">04 · Attempt 1</p>
-                <h4 class="pa-step__title">The model says “done.” The Guard says “not yet.”</h4>
-                <p class="pa-step__desc">
-                  Model completion does not advance the trajectory. The externally executed Guard is authoritative.
-                </p>
-              </div>
-              <span class="pa-badge pa-badge--fail">GUARD FAIL</span>
-            </header>
-            <div class="pa-step__body">
-<pre class="pa-log">Engine final:
-Patch applied successfully.
-
-<span class="bad">Guard status: FAIL</span>
-Guard output:
-README.md must contain exactly: status: step12
-
-Progress: baseline
-Work packet: prepared
-Checkpoint: f9a81f1...
-Packet state: dirty
-Decision: retry</pre>
-            </div>
-          </article>
-        </li>
-
+        <!-- Step 4: Guardによる外部検証 -->
         <li class="pa-step">
           <div class="pa-step__dot" aria-hidden="true"></div>
           <article class="pa-step__card">
             <header class="pa-step__head">
               <div>
-                <p class="pa-step__kicker">05 · Work Packet</p>
-                <h4 class="pa-step__title">Retry from explicit external state</h4>
+                <p class="pa-step__kicker">04 · Verification Pipeline</p>
+                <h4 class="pa-step__title">外部Guardによる厳格な検証</h4>
                 <p class="pa-step__desc">
-                  The next attempt receives the current checkpoint, dirty artifact state,
-                  Guard failure, goal, and constraints — not an ever-growing chat history.
+                  LLMの完了申告をそのまま信じず、実際の成果物を測定します。下記のログの通り、一度テストで失敗してもAgentが自動で自己修復（repairs=1）を行い、要件を満たしました。
                 </p>
               </div>
-              <span class="pa-badge">RETRY</span>
+              <span class="pa-badge pa-badge--pass">PIPELINE PASS</span>
             </header>
             <div class="pa-step__body">
-<pre class="pa-log">Checkpoint:   f9a81f1...
-Artifact:     dirty
-Guard result: FAIL
-Goal:         status: step12
-Next action:  retry</pre>
+<pre class="pa-log">Verification Pipeline
+  1. format       <span class="good">PASS</span> executions=2 repairs=0
+  2. lint         <span class="good">PASS</span> executions=2 repairs=0
+  3. typecheck    <span class="good">PASS</span> executions=2 repairs=0
+  4. test         <span class="good">PASS</span> executions=3 repairs=1</pre>
             </div>
           </article>
         </li>
 
-        <li class="pa-step pa-step--pass">
-          <div class="pa-step__dot" aria-hidden="true"></div>
-          <article class="pa-step__card">
-            <header class="pa-step__head">
-              <div>
-                <p class="pa-step__kicker">06 · Attempt 2</p>
-                <h4 class="pa-step__title">The artifact is corrected and measured again</h4>
-                <p class="pa-step__desc">
-                  The LLM updates the dirty artifact. Portable Agent executes the same Guard again.
-                </p>
-              </div>
-              <span class="pa-badge pa-badge--pass">GUARD PASS</span>
-            </header>
-            <div class="pa-step__body">
-<pre class="pa-log">Engine final:
-README.md updated to contain: status: step12
-
-<span class="good">Guard status: PASS</span>
-Guard exit:   0</pre>
-            </div>
-          </article>
-        </li>
-
+        <!-- Step 5: ゲート通過とチェックポイント保存 -->
         <li class="pa-step pa-step--accept">
           <div class="pa-step__dot" aria-hidden="true"></div>
           <article class="pa-step__card">
             <header class="pa-step__head">
               <div>
-                <p class="pa-step__kicker">07 · Gate ACCEPT</p>
-                <h4 class="pa-step__title">Portable Agent advances the Checkpoint</h4>
+                <p class="pa-step__kicker">05 · Gate ACCEPT</p>
+                <h4 class="pa-step__title">安全な状態としてチェックポイントを確定</h4>
                 <p class="pa-step__desc">
-                  Only after Guard PASS does Trajectory Control accept the artifact and create a new Checkpoint.
+                  すべての検証を通過したためGateがACCEPTとなり、作業状態が再利用可能なクリーンなチェックポイントとして保存されます。
                 </p>
               </div>
-              <span class="pa-badge pa-badge--pass">ACCEPTED</span>
+              <span class="pa-badge pa-badge--pass">SUCCESS</span>
             </header>
             <div class="pa-step__body">
-<pre class="pa-log"><span class="good">Gate: ACCEPT</span>
+<pre class="pa-log"><span class="good">Gate:        ACCEPT</span>
 Checkpoint operation: created
-Checkpoint: 7f60c4f...
-
-BASE     = f9a81f1...
-ACCEPTED = 7f60c4f...
-checkpoint parent confirmed</pre>
-            </div>
-          </article>
-        </li>
-
-        <li class="pa-step pa-step--close">
-          <div class="pa-step__dot" aria-hidden="true"></div>
-          <article class="pa-step__card">
-            <header class="pa-step__head">
-              <div>
-                <p class="pa-step__kicker">08 · work close</p>
-                <h4 class="pa-step__title">Close the Agent Work lifecycle explicitly</h4>
-                <p class="pa-step__desc">
-                  The managed worktree and agent branch are removed. Portable Agent does not infer whether integration happened.
-                </p>
-              </div>
-              <span class="pa-badge pa-badge--pass">CLOSED</span>
-            </header>
-            <div class="pa-step__body">
-<pre class="pa-log">Work closed
-
-Checkpoint:  7f60c4f...
-Branch:      agent/coder/step12-e2e/... <span class="good">(deleted)</span>
-Worktree:    worktrees/... <span class="good">(removed)</span>
-Monitor:     no runtime state
-Integration: not evaluated</pre>
+Checkpoint:  5e00e08f97671d2e77df17b6a22c5a444f3aa933
+<span class="good">Status:      SUCCESS</span></pre>
             </div>
           </article>
         </li>
 
       </ol>
+
+      <!-- 新規追加: Trajectory Entry Modesの解説 -->
+      <div class="mt-8 mb-12 p-6 sm:p-8 rounded-2xl bg-slate-50 border border-slate-200 shadow-sm">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="px-2.5 py-1 rounded-md bg-indigo-100 text-indigo-700 font-mono text-xs font-bold tracking-wider uppercase">v0.7.0 Update</span>
+          <h4 class="text-lg font-bold text-slate-900">3 Trajectory Entry Modes</h4>
+        </div>
+        <p class="text-sm text-slate-600 mb-6 leading-relaxed">
+          上記のログで使用されている <code>--mode takeover</code> をはじめ、v0.7.0ではタスクの進行状況や障害復旧に合わせて3つのエントリーモードを選択できるようになりました。
+        </p>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div class="p-4 bg-white rounded-xl border border-slate-200">
+            <div class="font-mono text-sm font-bold text-indigo-600 mb-1">start</div>
+            <p class="text-xs text-slate-500 leading-relaxed">まっさらなWorktreeから新規タスクを開始するデフォルトのモードです。</p>
+          </div>
+          <div class="p-4 bg-white rounded-xl border border-slate-200">
+            <div class="font-mono text-sm font-bold text-indigo-600 mb-1">recover</div>
+            <p class="text-xs text-slate-500 leading-relaxed">現在のArtifactから再開し、初期プロジェクトエージェントを再実行せずに検証からリトライします。</p>
+          </div>
+          <div class="p-4 bg-white rounded-xl border border-slate-200">
+            <div class="font-mono text-sm font-bold text-indigo-600 mb-1">takeover</div>
+            <p class="text-xs text-slate-500 leading-relaxed">現在のWorktreeを初期状態として、新しいタスクや別のAgentによる作業を引き継いで開始します。</p>
+          </div>
+        </div>
+      </div>
 
       <blockquote class="my-12 border-l-4 border-indigo-600 pl-5 text-xl sm:text-2xl font-bold text-slate-900 leading-snug tracking-tight">
         <span class="block text-sm font-medium text-slate-500 mb-1.5">The model generates.</span>
@@ -809,12 +764,17 @@ README.md:
             <code class="text-emerald-700 font-mono text-xs px-1.5 py-0.5 bg-emerald-50 border border-emerald-100 rounded">Guard</code>, 
             <code class="text-emerald-700 font-mono text-xs px-1.5 py-0.5 bg-emerald-50 border border-emerald-100 rounded">Gate</code>, and 
             <code class="text-emerald-700 font-mono text-xs px-1.5 py-0.5 bg-emerald-50 border border-emerald-100 rounded">Checkpoint</code> are explicit runtime boundaries.
-            The LLM is a replaceable Engine. The trajectory is controlled outside the model.
+            The LLM is a replaceable Engine, and now firmly detached from the work definition via Explicit Agent Assignment. The trajectory is entirely controlled outside the model.
           </p>
         </div>
       </div>
     </div>
   </section>
+
+
+
+
+
 
   <!-- Section: お問い合わせ (Contact Form) -->
   <section id="contact" class="py-20 px-6 bg-[#F8FAFC] border-t border-slate-200/80">
