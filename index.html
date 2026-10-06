@@ -700,27 +700,84 @@ Checkpoint:  5e00e08f97671d2e77df17b6a22c5a444f3aa933
 
       </ol>
 
-      <!-- 新規追加: Trajectory Entry Modesの解説 -->
+<!-- 新規追加: Trajectory Entry Modesの解説とフロー図 -->
       <div class="mt-8 mb-12 p-6 sm:p-8 rounded-2xl bg-slate-50 border border-slate-200 shadow-sm">
-        <div class="flex items-center gap-3 mb-4">
+        <div class="flex items-center gap-3 mb-6">
           <span class="px-2.5 py-1 rounded-md bg-indigo-100 text-indigo-700 font-mono text-xs font-bold tracking-wider uppercase">v0.7.0 Update</span>
           <h4 class="text-lg font-bold text-slate-900">3 Trajectory Entry Modes</h4>
         </div>
-        <p class="text-sm text-slate-600 mb-6 leading-relaxed">
+        
+        <p class="text-sm text-slate-600 mb-8 leading-relaxed">
           上記のログで使用されている <code>--mode takeover</code> をはじめ、v0.7.0ではタスクの進行状況や障害復旧に合わせて3つのエントリーモードを選択できるようになりました。
         </p>
+
+        <!-- かっこいいフロー図 (Pipeline Tree) -->
+        <div class="mb-10 p-5 rounded-xl bg-[#0F172A] border border-slate-800 shadow-inner overflow-x-auto">
+          <div class="min-w-[500px] font-mono text-xs font-semibold flex flex-col gap-1">
+            
+            <!-- Main Flow (start) -->
+            <div class="flex items-center gap-3">
+              <span class="px-3 py-1.5 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">start</span>
+              <span class="text-slate-600">─────▶</span>
+              <span class="text-emerald-400">Success / Clean</span>
+              <span class="text-slate-600">─────▶</span>
+              <span class="px-3 py-1.5 rounded bg-slate-800 text-slate-300 border border-slate-700 flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Complete
+              </span>
+            </div>
+
+            <!-- Branching Lines Container -->
+            <div class="relative pl-[45px] ml-4 border-l-2 border-slate-700/50 flex flex-col gap-4 py-4">
+              
+              <!-- Branch: takeover -->
+              <div class="flex items-center gap-3 relative mt-2">
+                <div class="absolute -left-[47px] top-1/2 w-10 h-[2px] bg-slate-700/50"></div>
+                <div class="absolute -left-[49px] top-1/2 w-2 h-2 rounded-full bg-slate-500 -translate-y-1/2"></div>
+                
+                <div class="flex flex-col gap-1 w-32">
+                  <span class="text-[10px] text-slate-500 uppercase tracking-wider">Next Task</span>
+                </div>
+                
+                <span class="px-3 py-1.5 rounded bg-sky-500/20 text-sky-300 border border-sky-500/30">takeover</span>
+                <span class="text-slate-600">─────▶</span>
+                <span class="px-3 py-1.5 rounded bg-slate-800 text-slate-300 border border-slate-700 flex items-center gap-2">
+                  <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Complete
+                </span>
+              </div>
+
+              <!-- Branch: recover -->
+              <div class="flex items-center gap-3 relative mt-2">
+                <div class="absolute -left-[47px] top-1/2 w-10 h-[2px] bg-slate-700/50"></div>
+                <div class="absolute -left-[49px] top-1/2 w-2 h-2 rounded-full bg-slate-500 -translate-y-1/2"></div>
+                
+                <div class="flex flex-col gap-1 w-32">
+                  <span class="text-[10px] text-rose-400/80 uppercase tracking-wider">If Guard Failed</span>
+                </div>
+                
+                <span class="px-3 py-1.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/30">recover</span>
+                <span class="text-slate-600">─────▶</span>
+                <span class="px-3 py-1.5 rounded bg-slate-800 text-slate-300 border border-slate-700 flex items-center gap-2">
+                  <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Complete
+                </span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- 3つのモードの解説カード -->
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div class="p-4 bg-white rounded-xl border border-slate-200">
             <div class="font-mono text-sm font-bold text-indigo-600 mb-1">start</div>
             <p class="text-xs text-slate-500 leading-relaxed">まっさらなWorktreeから新規タスクを開始するデフォルトのモードです。</p>
           </div>
           <div class="p-4 bg-white rounded-xl border border-slate-200">
-            <div class="font-mono text-sm font-bold text-indigo-600 mb-1">recover</div>
-            <p class="text-xs text-slate-500 leading-relaxed">現在のArtifactから再開し、初期プロジェクトエージェントを再実行せずに検証からリトライします。</p>
+            <div class="font-mono text-sm font-bold text-rose-500 mb-1">recover</div>
+            <p class="text-xs text-slate-500 leading-relaxed">Guardで失敗したArtifactから再開し、初期プロジェクトエージェントを再実行せずに検証からリトライします。</p>
           </div>
           <div class="p-4 bg-white rounded-xl border border-slate-200">
-            <div class="font-mono text-sm font-bold text-indigo-600 mb-1">takeover</div>
-            <p class="text-xs text-slate-500 leading-relaxed">現在のWorktreeを初期状態として、新しいタスクや別のAgentによる作業を引き継いで開始します。</p>
+            <div class="font-mono text-sm font-bold text-sky-600 mb-1">takeover</div>
+            <p class="text-xs text-slate-500 leading-relaxed">成功した現在のWorktreeを初期状態として、新しいタスクや別のAgentによる作業を引き継いで開始します。</p>
           </div>
         </div>
       </div>
