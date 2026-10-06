@@ -772,7 +772,127 @@ README.md:
   </section>
 
 
+<!-- Section 6: Blackboard Pattern (Multi-AI CLI) -->
+  <section id="blackboard" class="py-24 px-6 bg-slate-50 border-t border-slate-200/80 overflow-hidden">
+    <div class="max-w-6xl mx-auto space-y-12">
+      
+      <!-- 見出し（エコシステムとのリンク） -->
+      <div class="text-center max-w-3xl mx-auto space-y-4">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-200/60 text-indigo-700 font-mono text-xs font-bold tracking-wider uppercase">
+          02. Converge / 収束
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+          AIが設計し、AIが実装し、AIがレビューする<br />
+          <span class="bg-gradient-to-r from-indigo-600 to-sky-500 bg-clip-text text-transparent">Blackboard アーキテクチャ</span>
+        </h2>
+        
+        <div class="flex items-center justify-center gap-3 pt-2">
+          <span class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-slate-200 shadow-sm text-sm font-bold text-slate-700">
+            <span class="text-emerald-500">✔️</span> Goal-Formation
+          </span>
+          <span class="text-slate-400 font-mono">→</span>
+          <span class="px-3 py-1.5 rounded-lg bg-slate-800 text-white shadow-sm text-sm font-mono font-semibold">
+            Portable Agent v1
+          </span>
+        </div>
 
+        <p class="text-sm sm:text-base text-slate-600 leading-relaxed pt-4">
+          実行（Constrain）の前に、明確な目標を形成する。<br class="hidden sm:inline" />
+          Portable Agent v1「multi-ai-cli IDE」は、Markdownファイルを共有の黒板（Shared Blackboard）に見立て、複数の異なるAIモデルを協調動作させます。各AIの持ち味を活かして要件を整理し、後続のランタイムが参照する不変の「Goal」を定義します。
+        </p>
+      </div>
+
+      <!-- IDE画像と解説のレイアウト -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mt-10">
+        
+        <!-- 左側：画像コンテナ -->
+        <div class="lg:col-span-8 relative group">
+          <div class="absolute -inset-2 bg-gradient-to-r from-indigo-500/20 to-sky-400/20 rounded-2xl blur-lg group-hover:blur-xl transition duration-500 opacity-70"></div>
+          <div class="relative rounded-xl overflow-hidden border border-slate-700/50 shadow-2xl bg-[#0F172A]">
+            <!-- Mac風のウィンドウヘッダー -->
+            <div class="h-8 bg-[#1E293B] border-b border-slate-700/80 flex items-center px-4 space-x-2">
+              <div class="w-3 h-3 rounded-full bg-rose-500"></div>
+              <div class="w-3 h-3 rounded-full bg-amber-500"></div>
+              <div class="w-3 h-3 rounded-full bg-emerald-500"></div>
+              <div class="ml-4 text-[10px] font-mono text-slate-400 flex-1 text-center pr-12">Portable Agent v1</div>
+            </div>
+            <!-- 対象の画像 -->
+            <img 
+              src="images/screen.png" 
+              alt="multi-ai-cli IDE Blackboard Pattern" 
+              class="w-full h-auto object-cover"
+            />
+          </div>
+        </div>
+
+        <!-- 右側：AIリレーの解説フロー -->
+        <div class="lg:col-span-4 space-y-6 lg:pl-2">
+          <h3 class="text-lg font-bold text-slate-900 mb-2">Best-in-Class Orchestration</h3>
+          <p class="text-xs text-slate-600 mb-6 leading-relaxed">
+            <code>-r</code> (read) でファイルを読み込み、<code>-w</code> (write) で結果を書き出す。
+            シンプルな入出力の連鎖（Sequence）が、複雑なタスクを分解し、発散したコンテキストを確実に収束させます。
+          </p>
+
+          <!-- フローのステップ (左揃えのストレートラインに変更) -->
+          <div class="relative space-y-5 before:absolute before:inset-y-0 before:left-[15px] before:w-0.5 before:bg-gradient-to-b before:from-indigo-100 before:via-sky-100 before:to-transparent">
+            
+            <!-- Step 1: GPT -->
+            <div class="relative flex items-center gap-4">
+              <div class="flex items-center justify-center w-8 h-8 rounded-full border-2 border-white bg-indigo-100 text-indigo-600 shadow shrink-0 z-10">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+              </div>
+              <div class="flex-1 p-4 rounded-xl border border-slate-200 bg-white shadow-sm">
+                <div class="flex items-center gap-2 mb-1.5">
+                  <span class="text-xs font-mono font-bold text-slate-800">@gpt</span>
+                  <span class="text-[10px] font-medium px-1.5 py-0.5 rounded bg-slate-100 text-slate-500">設計</span>
+                </div>
+                <p class="text-[11px] text-slate-500 leading-relaxed font-mono">
+                  -r specification.md<br/>
+                  -w detailed-design.md
+                </p>
+              </div>
+            </div>
+
+            <!-- Step 2: Claude & Grok (Parallel) -->
+            <div class="relative flex items-center gap-4">
+              <div class="flex items-center justify-center w-8 h-8 rounded-full border-2 border-white bg-sky-100 text-sky-600 shadow shrink-0 z-10">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+              </div>
+              <div class="flex-1 p-4 rounded-xl border border-slate-200 bg-white shadow-sm">
+                <div class="flex items-center gap-2 mb-1.5">
+                  <span class="text-xs font-mono font-bold text-slate-800">@claude / @grok</span>
+                  <span class="text-[10px] font-medium px-1.5 py-0.5 rounded bg-slate-100 text-slate-500">実装・テスト</span>
+                </div>
+                <p class="text-[11px] text-slate-500 leading-relaxed font-mono">
+                  -w code.md<br/>
+                  -w test_code.md
+                </p>
+              </div>
+            </div>
+
+            <!-- Step 3: Gemini -->
+            <div class="relative flex items-center gap-4">
+              <div class="flex items-center justify-center w-8 h-8 rounded-full border-2 border-white bg-emerald-100 text-emerald-600 shadow shrink-0 z-10">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              </div>
+              <div class="flex-1 p-4 rounded-xl border border-slate-200 bg-white shadow-sm">
+                <div class="flex items-center gap-2 mb-1.5">
+                  <span class="text-xs font-mono font-bold text-slate-800">@gemini</span>
+                  <span class="text-[10px] font-medium px-1.5 py-0.5 rounded bg-slate-100 text-slate-500">レビュー</span>
+                </div>
+                <p class="text-[11px] text-slate-500 leading-relaxed font-mono">
+                  -r code.md -r test_code.md<br/>
+                  -w reviews.md
+                </p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
 
 
 
